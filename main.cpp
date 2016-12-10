@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -25,14 +26,45 @@ int main(int argc, char *argv[])
 
     // Open the input file.
     ifstream file(argv[1]);
-    if (!file.is_open())
+    if (!file.good())
     {
         cerr << "Unable to open the file '" << argv[1] << "'." << endl;
         return 1;
     }
 
     // Karger's Graph.
-    KargerGraph kargerGraph();
+    KargerGraph kargerGraph;
+    unordered_map<string, Product> productMap;
+
+    int numberOfProducts;
+    file >> numberOfProducts;
+    // Read all the products in the input file
+    while (numberOfProducts --> 0)
+    {
+        string productName;
+        getline(file, productName);
+        // If the line is empty skip it
+        if(productName.size() == 0)
+        {
+            numberOfProducts++; continue;
+        }
+        // TODO: Check that the pointer in the graph points to the map
+        auto productInMap = productMap.emplace(productName, Product(productName));
+        kargerGraph.AddProduct(make_shared<Product>(get<1>(*get<0>(productInMap))));
+    }
+
+    // Read all the edges in the input file
+    while (file.good())
+    {
+        string product1, product2;
+        getline(file, product1, '|');
+        // If the line is empty skip it
+        if(product1.size() == 0)
+        {
+            numberOfProducts++; continue;
+        }
+        getline(file, product2);
+    }
 
     //
     // TODO: Read products and edges from file.

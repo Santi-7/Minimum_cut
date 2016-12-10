@@ -16,8 +16,7 @@ int main()
     KargerGraph kargerGraph();
     // TODO: Read products and edges from file.
     /* TODO: Construct a hash table with all the products.
-     * TODO:           a vector with the edges.
-     * TODO:           a double-chained list with the packs.
+     * TODO:           a Kargers' Graph
      */
     // TODO: Karger's algorithm.
 }
@@ -27,12 +26,24 @@ class KargerGraph
 
 public:
 
-    void AddProductsPack(ProductsPack pack)
+    /**
+     * Adds the Amazon's product [product] to the Karger's Graph as a vertice.
+     *
+     * @param product to be added to the Karger's Graph as a vertice.
+     */
+    void AddProduct(shared_ptr<Product> product)
     {
+        ProductsPack pack(product);
         mPacks.push_back(pack);
-        // TODO: Fill previousPack and nexPack.
+        // TODO: Fill the future attribute mPack of product.
+        // TODO: Fill previousPack and nexPack of [pack].
     }
 
+    /**
+     * Adds the Edge [edge] to the Karger's Graph as an edge.
+     *
+     * @param edge to be added to the Karger's Graph as an edge.
+     */
     void AddEdge(Edge edge)
     {
         mEdges.push_back(edge);

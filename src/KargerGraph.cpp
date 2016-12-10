@@ -15,7 +15,7 @@ void KargerGraph::AddProduct(std::shared_ptr<Product> product)
     if (mPacks.IsEmpty()) {
         mPacks = pack;
     }
-    // There already more packs added to the graph.
+    // There are already packs added in the graph.
     else {
         // The previous pack of the first one marks the last pack in the array.
         mPacks.GetPrevious()->SetNext(std::make_shared(pack));
@@ -24,7 +24,8 @@ void KargerGraph::AddProduct(std::shared_ptr<Product> product)
     /* Update the previous pack of the first one in the array (which marks
      * the last pack in the array) to the new one. */
     mPacks.SetPrevious(std::make_shared(pack));
-    // TODO: Fill the future attribute mPack of product.
+    // Set the created pack to the product to fill later the graph correctly.
+    product->SetPack(std::make_shared(pack));
 }
 
 void KargerGraph::AddEdge(Edge edge)

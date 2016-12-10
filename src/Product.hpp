@@ -9,6 +9,8 @@
 #ifndef MINIMUM_CUT_PRODUCT_HPP
 #define MINIMUM_CUT_PRODUCT_HPP
 
+#include "ProductsPack.hpp"
+
 #include <string>
 
 /**
@@ -27,10 +29,28 @@ public:
      */
     Product(const std::string &name);
 
+    /**
+     * Returns the ProductsPack this product belongs to initially.
+     *
+     * @return the ProductsPack this product belongs to initially.
+     */
+    std::shared_ptr<ProductsPack> GetPack();
+
+    /**
+     * Sets the initial ProductsPack of this product to [pack].
+     *
+     * @param pack this product belongs to initially.
+     */
+    void SetPack(std::shared_ptr<ProductsPack> pack);
+
 private:
 
     /** Name of the Amazon's product. */
     std::string mName;
+
+    /** ProductsPack this product belongs to initially. This attribute is
+     * only used in the construction of the initial Karger's Graph. */
+    std::shared_ptr<ProductsPack> mPack;
 };
 
 #endif // MINIMUM_CUT_PRODUCT_HPP

@@ -38,13 +38,13 @@ int main(int argc, char *argv[])
 
     int numberOfProducts;
     file >> numberOfProducts;
-    // Read all the products in the input file
+    // Read all the products in the input file.
     while (numberOfProducts --> 0)
     {
         string productName;
         getline(file, productName);
         // If the line is empty skip it
-        if(productName.size() == 0)
+        if (productName.size() == 0)
         {
             numberOfProducts++; continue;
         }
@@ -53,23 +53,23 @@ int main(int argc, char *argv[])
         kargerGraph.AddProduct(make_shared<Product>(get<1>(*get<0>(productInMap))));
     }
 
-    // Read all the edges in the input file
+    // Read all the edges in the input file.
     while (file.good())
     {
         string product1, product2;
         getline(file, product1, '|');
-        // If the line is empty skip it
-        if(product1.size() == 0)
+        // If the line is empty skip it.
+        if (product1.size() == 0)
         {
             numberOfProducts++; continue;
         }
         getline(file, product2);
     }
 
-    //
-    // TODO: Read products and edges from file.
-    /* TODO: Construct a hash table with all the products.
-     * TODO:           a Kargers' Graph
-     */
-    // TODO: Karger's algorithm.
+    // Karger's algorithm. Contract a random edge until only two vertices exist.
+    unsigned long step = productMap.size();
+    while (step --> 2) kargerGraph.FuseStep();
+
+    // TODO: mPacks in kargerGraph will have the two desired packs. Show them.
+    // TODO: mEdges.size() will mean the min cut.
 }

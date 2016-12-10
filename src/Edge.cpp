@@ -32,12 +32,12 @@ void Edge::SetPack2(std::shared_ptr<ProductsPack> pack)
     mP2 = pack;
 }
 
-unsigned int Edge::GetPosition() const
+unsigned long Edge::GetPosition() const
 {
     return mPosition;
 }
 
-void Edge::SetPosition(const unsigned int position)
+void Edge::SetPosition(const unsigned long position)
 {
     mPosition = position;
 }

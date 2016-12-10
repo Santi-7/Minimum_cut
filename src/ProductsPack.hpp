@@ -99,6 +99,16 @@ public:
      */
     void SetNext(const std::shared_ptr<ProductsPack> &next);
 
+    /**
+     * Overloads == operator to return true if both packs are the same, this is for example,
+     * in the fastest way, they share the same position in the array.
+     *
+     * @param pack1 first ProductsPack in the comparison.
+     * @param pack2 second ProductsPack in the comparison.
+     * @return true if both packs are the same,
+     */
+    friend bool operator==(const ProductsPack &pack1, const ProductsPack &pack2);
+
 private:
 
     /** Amazon's products that belong to this pack. */

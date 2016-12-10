@@ -42,7 +42,7 @@ void KargerGraph::AddEdge(Edge &edge)
     edge.GetPack1()->AddEdge(std::make_shared<Edge>(edge));
     edge.GetPack2()->AddEdge(std::make_shared<Edge>(edge));
     // Updates position of edge in the vector.
-    edge.SetPosition(static_cast<unsigned int>(mEdges.size()));
+    edge.SetPosition(mEdges.size());
     // Add it to the vector of edges.
     mEdges.push_back(edge);
 }
@@ -79,6 +79,16 @@ void KargerGraph::FuseStep()
             // Add the edge to the fused one.
             randomEdge.GetPack1()->AddEdge(edge);
         }
-        // TODO: Remove randomEdge.GetPack2() from mPacks.
+        // Remove randomEdge.GetPack2() from mPacks.
+        if (*randomEdge.GetPack2() == mPacks)
+        {
+            mPacks = *mPacks.GetNext();
+            mPacks.SetPrevious(nullptr);
+        }
+        else
+        {
+            randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
+            randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
+        }
     }
 }

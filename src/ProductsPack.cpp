@@ -59,3 +59,8 @@ void ProductsPack::SetNext(const std::shared_ptr<ProductsPack> &next)
 {
     mNextPack = next;
 }
+
+bool operator==(const ProductsPack &pack1, const ProductsPack &pack2)
+{
+    return pack1.mPreviousPack == pack2.mPreviousPack;
+}

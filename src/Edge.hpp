@@ -65,7 +65,7 @@ public:
      *
      * @return the edge's position in the vector of edges of the Karger's Graph.
      */
-    unsigned int GetPosition() const;
+    unsigned long GetPosition() const;
 
     /**
      * Sets the edge's position in the vector of edges of the Karger's Graph to [position].
@@ -73,7 +73,7 @@ public:
      * @param position to be set as the new position of this edge in the vector of edges
      *                 of the Karger's Graph to [position].
      */
-    void SetPosition(const unsigned int position);
+    void SetPosition(const unsigned long position);
 
     /**
      * Overloads == operator to return true if both edges, [edge1] and [edge2],
@@ -94,7 +94,7 @@ private:
     /** In order to manage O(1) when deleting an edge from the vector, an edge must maintain
      * the position it has in the vector of edges of the Karger's Graph.
      * Note: It must be updated. */
-    unsigned int mPosition;
+    unsigned long mPosition;
 };
 
 #endif // MINIMUM_CUT_EDGE_HPP

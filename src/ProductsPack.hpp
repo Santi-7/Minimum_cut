@@ -14,6 +14,8 @@
 #include <memory>
 #include <vector>
 
+class Edge;
+
 /**
  * This class represents a pack of Amazon's products.
  */

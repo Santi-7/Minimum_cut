@@ -12,6 +12,8 @@
 #include <memory>
 #include "ProductsPack.hpp"
 
+class ProductsPack;
+
 /**
  * An edge between two packs of Amazon's products, [mP1] and [mP2], means
  * that at least one product of each pack has been bought together at least once.

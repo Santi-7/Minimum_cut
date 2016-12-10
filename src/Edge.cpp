@@ -32,6 +32,16 @@ void Edge::SetPack2(std::shared_ptr<ProductsPack> pack)
     mP2 = pack;
 }
 
+unsigned int Edge::GetPosition() const
+{
+    return mPosition;
+}
+
+void Edge::SetPosition(const unsigned int position)
+{
+    mPosition = position;
+}
+
 bool operator==(const Edge &edge1, const Edge &edge2)
 {
     return ((edge1.mP1 == edge2.mP1) & (edge1.mP2 == edge2.mP2)) |

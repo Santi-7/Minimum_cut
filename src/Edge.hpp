@@ -61,6 +61,21 @@ public:
     void SetPack2(std::shared_ptr<ProductsPack> pack);
 
     /**
+     * Returns the edge's position in the vector of edges of the Karger's Graph.
+     *
+     * @return the edge's position in the vector of edges of the Karger's Graph.
+     */
+    unsigned int GetPosition() const;
+
+    /**
+     * Sets the edge's position in the vector of edges of the Karger's Graph to [position].
+     *
+     * @param position to be set as the new position of this edge in the vector of edges
+     *                 of the Karger's Graph to [position].
+     */
+    void SetPosition(const unsigned int position);
+
+    /**
      * Overloads == operator to return true if both edges, [edge1] and [edge2],
      * have the same ProductsPack as the two verteces, no matter the order.
      *
@@ -75,6 +90,11 @@ private:
 
     /** Packs of Amazon's products which products, at least one, have been bought together. */
     std::shared_ptr<ProductsPack> mP1, mP2;
+
+    /** In order to manage O(1) when deleting an edge from the vector, an edge must maintain
+     * the position it has in the vector of edges of the Karger's Graph.
+     * Note: It must be updated. */
+    unsigned int mPosition;
 };
 
 #endif // MINIMUM_CUT_EDGE_HPP

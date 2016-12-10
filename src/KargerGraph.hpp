@@ -37,7 +37,7 @@ public:
      *
      * @param edge to be added to the Karger's Graph as an edge.
      */
-    void AddEdge(const Edge &edge);
+    void AddEdge(Edge &edge);
 
     /**
      * TODO: Add doc.

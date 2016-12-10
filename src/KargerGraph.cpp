@@ -36,11 +36,13 @@ void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
     product->SetPack(std::make_shared<ProductsPack>(pack));
 }
 
-void KargerGraph::AddEdge(const Edge &edge)
+void KargerGraph::AddEdge(Edge &edge)
 {
     // Add this edge to both packs.
     edge.GetPack1()->AddEdge(std::make_shared<Edge>(edge));
     edge.GetPack2()->AddEdge(std::make_shared<Edge>(edge));
+    // Updates position of edge in the vector.
+    edge.SetPosition(static_cast<unsigned int>(mEdges.size()));
     // Add it to the vector of edges.
     mEdges.push_back(edge);
 }
@@ -58,8 +60,10 @@ void KargerGraph::FuseStep()
         // Remove this edge (it will be a self-loop edge otherwise).
         if (*edge == randomEdge)
         {
-            // TODO: Delete this edge.
-            ;
+            /* To manage O(1), put the last edge of the vector in the position of the
+             * deleted edge, and pop the last edge. */
+            mEdges[edge->GetPosition()] = mEdges[edges.size()-1];
+            mEdges.pop_back();
         }
         else // edge != randomEdge
         {
@@ -75,5 +79,6 @@ void KargerGraph::FuseStep()
             // Add the edge to the fused one.
             randomEdge.GetPack1()->AddEdge(edge);
         }
+        // TODO: Remove randomEdge.GetPack2() from mPacks.
     }
 }

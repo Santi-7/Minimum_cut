@@ -81,15 +81,15 @@ void KargerGraph::FuseStep()
             // Add the edge to the fused one.
             randomEdge.GetPack1()->AddEdge(edge);
         }
-        // Remove randomEdge.GetPack2() from mPacks.
-        if (*randomEdge.GetPack2() == mPacks)
-        {
-            mPacks = *mPacks.GetNext();
-        }
-        else
-        {
-            randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
-            randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
-        }
+    }
+    // Remove randomEdge.GetPack2() from mPacks.
+    if (*randomEdge.GetPack2() == mPacks)
+    {
+        mPacks = *mPacks.GetNext();
+    }
+    else
+    {
+        randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
+        randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
     }
 }

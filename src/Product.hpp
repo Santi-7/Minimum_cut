@@ -11,7 +11,9 @@
 
 #include "ProductsPack.hpp"
 
-#include <string>
+#include <memory>
+
+class ProductsPack;
 
 /**
  * This class represents an Amazon's product.
@@ -34,14 +36,14 @@ public:
      *
      * @return the ProductsPack this product belongs to initially.
      */
-    std::shared_ptr<ProductsPack> GetPack();
+    std::shared_ptr<ProductsPack> GetPack() const;
 
     /**
      * Sets the initial ProductsPack of this product to [pack].
      *
      * @param pack this product belongs to initially.
      */
-    void SetPack(std::shared_ptr<ProductsPack> pack);
+    void SetPack(const std::shared_ptr<ProductsPack> &pack);
 
 private:
 

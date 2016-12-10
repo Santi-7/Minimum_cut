@@ -16,6 +16,7 @@
 #include <vector>
 
 class Edge;
+class Product;
 
 /**
  * This class represents a pack of Amazon's products.
@@ -31,49 +32,49 @@ public:
      * @param initialProduct of the pack.
      * @return a pack of products with an initial product [initialProduct].
      */
-    ProductsPack(const std::shared_ptr<Product> initialProduct);
+    ProductsPack(const std::shared_ptr<Product> &initialProduct);
 
     /**
      * Adds the Edge [edge] to this pack.
      *
      * @param edge to be added to this pack.
      */
-    void AddEdge(const std::shared_ptr<Edge> edge);
+    void AddEdge(const std::shared_ptr<Edge> &edge);
 
     /**
      * Returns true if the pack has no products.
      *
      * @return true if the pack has no products.
      */
-    bool IsEmpty();
+    bool IsEmpty() const;
 
     /**
      * Returns the previous pack.
      *
      * @return the previous pack.
      */
-    std::shared_ptr<ProductsPack> GetPrevious();
+    std::shared_ptr<ProductsPack> GetPrevious() const;
 
     /**
      * Returns the next pack.
      *
      * @return the next pack.
      */
-    std::shared_ptr<ProductsPack> GetNext();
+    std::shared_ptr<ProductsPack> GetNext() const;
 
     /**
      * Sets [previous] to the previous ProductsPack.
      *
      * @param previous ProductsPack to be set as the previous pack.
      */
-    void SetPrevious(const std::shared_ptr<ProductsPack> previous);
+    void SetPrevious(const std::shared_ptr<ProductsPack> &previous);
 
     /**
      * Sets [next] to the next ProductsPack.
      *
      * @param next ProductsPack to be set as the next pack.
      */
-    void SetNext(const std::shared_ptr<ProductsPack> next);
+    void SetNext(const std::shared_ptr<ProductsPack> &next);
 
 private:
 

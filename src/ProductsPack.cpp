@@ -8,37 +8,37 @@
 
 #include "ProductsPack.hpp"
 
-ProductsPack::ProductsPack(const std::shared_ptr<Product> initialProduct)
+ProductsPack::ProductsPack(const std::shared_ptr<Product> &initialProduct)
 {
     mProducts.push_back(initialProduct);
 }
 
-void ProductsPack::AddEdge(const std::shared_ptr<Edge> edge)
+void ProductsPack::AddEdge(const std::shared_ptr<Edge> &edge)
 {
     mEdges.push_back(edge);
 }
 
-bool ProductsPack::IsEmpty()
+bool ProductsPack::IsEmpty() const
 {
     return mProducts.empty();
 }
 
-std::shared_ptr<ProductsPack> ProductsPack::GetPrevious()
+std::shared_ptr<ProductsPack> ProductsPack::GetPrevious() const
 {
     return mPreviousPack;
 }
 
-std::shared_ptr<ProductsPack> ProductsPack::GetNext()
+std::shared_ptr<ProductsPack> ProductsPack::GetNext() const
 {
     return mNextPack;
 }
 
-void ProductsPack::SetPrevious(const std::shared_ptr<ProductsPack> previous)
+void ProductsPack::SetPrevious(const std::shared_ptr<ProductsPack> &previous)
 {
     mPreviousPack = previous;
 }
 
-void ProductsPack::SetNext(const std::shared_ptr<ProductsPack> next)
+void ProductsPack::SetNext(const std::shared_ptr<ProductsPack> &next)
 {
     mNextPack = next;
 }

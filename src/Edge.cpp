@@ -10,9 +10,14 @@
 
 Edge::Edge(const std::shared_ptr<ProductsPack> &p1,
            const std::shared_ptr<ProductsPack> &p2)
-: mP1(p1), mP2(p2)
+: mP1(p1), mP2(p2) {}
+
+std::shared_ptr<ProductsPack> Edge::GetPack1() const
 {
-    // Add this edge to the both packs.
-    mP1->AddEdge(std::make_shared(this));
-    mP2->AddEdge(std::make_shared(this));
+    return mP1;
+}
+
+std::shared_ptr<ProductsPack> Edge::GetPack2() const
+{
+    return mP2;
 }

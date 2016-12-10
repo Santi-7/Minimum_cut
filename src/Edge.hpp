@@ -27,12 +27,24 @@ public:
     /**
      * Creates an edge between the two packs of Amazon's products [p1] and [p2].
      *
-     * @param p1 First pack of Amazon's product.
-     * @param p2 Second pack of Amazon's product.
+     * @param p1 First pack of Amazon's products.
+     * @param p2 Second pack of Amazon's products.
      * @return an edge between the two packs of Amazon's products [p1] and [p2].
      */
     Edge(const std::shared_ptr<ProductsPack> &p1,
          const std::shared_ptr<ProductsPack> &p2);
+
+    /**
+     * Returns the first pack.
+     * @return the first pack.
+     */
+    std::shared_ptr<ProductsPack> GetPack1() const;
+
+    /**
+     * Returns the second pack.
+     * @return the second pack.
+     */
+    std::shared_ptr<ProductsPack> GetPack2() const;
 
 private:
 

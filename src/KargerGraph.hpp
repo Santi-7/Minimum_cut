@@ -23,14 +23,14 @@ public:
      *
      * @param product to be added to the Karger's Graph as a vertice.
      */
-    void AddProduct(std::shared_ptr<Product> product);
+    void AddProduct(const std::shared_ptr<Product> &product);
 
     /**
      * Adds the Edge [edge] to the Karger's Graph as an edge.
      *
      * @param edge to be added to the Karger's Graph as an edge.
      */
-    void AddEdge(Edge edge);
+    void AddEdge(const Edge &edge);
 
 private:
 

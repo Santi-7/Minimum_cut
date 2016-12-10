@@ -37,6 +37,13 @@ public:
     ProductsPack(const std::shared_ptr<Product> &initialProduct);
 
     /**
+     * Adds the Products [products] to this pack.
+     *
+     * @param products to be added to this pack.
+     */
+    void AddProducts(const std::vector<std::shared_ptr<Product>> &products);
+
+    /**
      * Adds the Edge [edge] to this pack.
      *
      * @param edge to be added to this pack.
@@ -49,6 +56,20 @@ public:
      * @return true if the pack has no products.
      */
     bool IsEmpty() const;
+
+    /**
+     * Returns the products of this pack.
+     *
+     * @return the products of this pack.
+     */
+    std::vector<std::shared_ptr<Product>> GetProducts() const;
+
+    /**
+     * Returns the edges of this pack.
+     *
+     * @return the edges of this pack.
+     */
+    std::vector<std::shared_ptr<Edge>> GetEdges() const;
 
     /**
      * Returns the previous pack.

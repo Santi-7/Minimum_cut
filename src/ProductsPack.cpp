@@ -15,6 +15,11 @@ ProductsPack::ProductsPack(const std::shared_ptr<Product> &initialProduct)
     mProducts.push_back(initialProduct);
 }
 
+void ProductsPack::AddProducts(const std::vector<std::shared_ptr<Product>> &products)
+{
+    mProducts.insert( products.end(), products.begin(), products.end() );
+}
+
 void ProductsPack::AddEdge(const std::shared_ptr<Edge> &edge)
 {
     mEdges.push_back(edge);
@@ -23,6 +28,16 @@ void ProductsPack::AddEdge(const std::shared_ptr<Edge> &edge)
 bool ProductsPack::IsEmpty() const
 {
     return mProducts.empty();
+}
+
+std::vector<std::shared_ptr<Product>> ProductsPack::GetProducts() const
+{
+    return mProducts;
+}
+
+std::vector<std::shared_ptr<Edge>> ProductsPack::GetEdges() const
+{
+    return mEdges;
 }
 
 std::shared_ptr<ProductsPack> ProductsPack::GetPrevious() const

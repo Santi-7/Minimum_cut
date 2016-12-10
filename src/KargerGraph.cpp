@@ -49,5 +49,31 @@ void KargerGraph::FuseStep()
 {
     // Get a random edge of the graph.
     Edge randomEdge = mEdges[rand() % mEdges.size()];
-
+    // Fuses the products of both packs into the first one.
+    randomEdge.GetPack1()->AddProducts(randomEdge.GetPack2()->GetProducts());
+    // Fuses the edges of both packs into the first one.
+    std::vector<std::shared_ptr<Edge>> edges = randomEdge.GetPack2()->GetEdges();
+    for (const std::shared_ptr<Edge> edge : edges)
+    {
+        // Remove this edge (it will be a self-loop edge otherwise).
+        if (*edge == randomEdge)
+        {
+            // TODO: Delete this edge.
+            ;
+        }
+        else // edge != randomEdge
+        {
+            // Change the own pack vertice of the edge to the fused one.
+            if (edge->GetPack1() == randomEdge.GetPack2())
+            {
+                edge->SetPack1(randomEdge.GetPack1());
+            }
+            else // edge->GetPack1() != randomEdge.GetPack2()
+            {
+                edge->SetPack2(randomEdge.GetPack1());
+            }
+            // Add the edge to the fused one.
+            randomEdge.GetPack1()->AddEdge(edge);
+        }
+    }
 }

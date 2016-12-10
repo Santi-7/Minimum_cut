@@ -46,6 +46,31 @@ public:
      */
     std::shared_ptr<ProductsPack> GetPack2() const;
 
+    /**
+     * Sets the first pack to [pack].
+     *
+     * @param pack to be set as the first pack.
+     */
+    void SetPack1(std::shared_ptr<ProductsPack> pack);
+
+    /**
+     * Sets the second pack to [pack].
+     *
+     * @param pack to be set as the second pack.
+     */
+    void SetPack2(std::shared_ptr<ProductsPack> pack);
+
+    /**
+     * Overloads == operator to return true if both edges, [edge1] and [edge2],
+     * have the same ProductsPack as the two verteces, no matter the order.
+     *
+     * @param edge1 first edge in the comparison.
+     * @param edge2 second edge in the comparison.
+     * @return true if both edges, [edge1] and [edge2], have the same ProductsPack
+     * as the two verteces, no matter the order.
+     */
+    friend bool operator==(const Edge &edge1, const Edge &edge2);
+
 private:
 
     /** Packs of Amazon's products which products, at least one, have been bought together. */

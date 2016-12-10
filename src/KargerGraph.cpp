@@ -8,6 +8,14 @@
 
 #include "KargerGraph.hpp"
 
+#include <stdlib.h>
+
+KargerGraph::KargerGraph()
+{
+    // Initializes the random numbers generator's seed.
+    srand(time(NULL));
+}
+
 void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
 {
     ProductsPack pack(product);
@@ -35,4 +43,11 @@ void KargerGraph::AddEdge(const Edge &edge)
     edge.GetPack2()->AddEdge(std::make_shared<Edge>(edge));
     // Add it to the vector of edges.
     mEdges.push_back(edge);
+}
+
+void KargerGraph::FuseStep()
+{
+    // Get a random edge of the graph.
+    Edge randomEdge = mEdges[rand() % mEdges.size()];
+
 }

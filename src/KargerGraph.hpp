@@ -19,6 +19,13 @@ class KargerGraph
 public:
 
     /**
+     * Creates a Karger's Graph.
+     *
+     * @return a Karger's Graph.
+     */
+    KargerGraph();
+
+    /**
      * Adds the Amazon's product [product] to the Karger's Graph as a vertice.
      *
      * @param product to be added to the Karger's Graph as a vertice.
@@ -31,6 +38,11 @@ public:
      * @param edge to be added to the Karger's Graph as an edge.
      */
     void AddEdge(const Edge &edge);
+
+    /**
+     * TODO: Add doc.
+     */
+    void FuseStep();
 
 private:
 

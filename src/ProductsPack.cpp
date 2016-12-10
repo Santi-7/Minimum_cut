@@ -8,6 +8,8 @@
 
 #include "ProductsPack.hpp"
 
+ProductsPack::ProductsPack() {}
+
 ProductsPack::ProductsPack(const std::shared_ptr<Product> &initialProduct)
 {
     mProducts.push_back(initialProduct);

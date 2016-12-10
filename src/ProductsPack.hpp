@@ -26,6 +26,8 @@ class ProductsPack
 
 public:
 
+    ProductsPack();
+
     /**
      * Creates a pack of products with an initial product [initialProduct].
      *

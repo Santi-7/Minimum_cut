@@ -10,4 +10,7 @@ add_executable(Minimum_cut_run
         ${HEADER_FILES}
         ${SOURCE_FILES})
 
+include_directories(
+        ${PROJECT_SOURCE_DIR}/src)
+
 target_link_libraries(Minimum_cut_run src)

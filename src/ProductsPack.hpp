@@ -9,8 +9,9 @@
 #ifndef MINIMUM_CUT_PRODUCTSPACK_HPP
 #define MINIMUM_CUT_PRODUCTSPACK_HPP
 
-#include "Product.hpp"
 #include "Edge.hpp"
+#include "Product.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -39,6 +40,41 @@ public:
      */
     void AddEdge(const std::shared_ptr<Edge> edge);
 
+    /**
+     * Returns true if the pack has no products.
+     *
+     * @return true if the pack has no products.
+     */
+    bool IsEmpty();
+
+    /**
+     * Returns the previous pack.
+     *
+     * @return the previous pack.
+     */
+    std::shared_ptr<ProductsPack> GetPrevious();
+
+    /**
+     * Returns the next pack.
+     *
+     * @return the next pack.
+     */
+    std::shared_ptr<ProductsPack> GetNext();
+
+    /**
+     * Sets [previous] to the previous ProductsPack.
+     *
+     * @param previous ProductsPack to be set as the previous pack.
+     */
+    void SetPrevious(const std::shared_ptr<ProductsPack> previous);
+
+    /**
+     * Sets [next] to the next ProductsPack.
+     *
+     * @param next ProductsPack to be set as the next pack.
+     */
+    void SetNext(const std::shared_ptr<ProductsPack> next);
+
 private:
 
     /** Amazon's products that belong to this pack. */
@@ -48,10 +84,10 @@ private:
      * bought with, at least, one product of this pack at least once. */
     std::vector<std::shared_ptr<Edge>> mEdges;
 
-    /** In order to manage O(1) when deleting (fusing) a ProductsPack from a vector,
-     * a ProductsPack has these two pointers to the previous and next pack in the vector.
-     * Note: they will have to be filled when inserting the pack into the vector. */
-    std::shared_ptr<ProductsPack> previousPack, nextPack;
+    /** In order to manage O(1) when deleting (fusing) a ProductsPack from an array,
+     * a ProductsPack has these two pointers to the previous and next pack in the array.
+     * Note: they will have to be filled when inserting the pack into the array. */
+    std::shared_ptr<ProductsPack> mPreviousPack = nullptr, mNextPack = nullptr;
 };
 
-#endif //MINIMUM_CUT_PRODUCTSPACK_HPP
+#endif // MINIMUM_CUT_PRODUCTSPACK_HPP

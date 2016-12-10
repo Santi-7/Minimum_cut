@@ -6,8 +6,7 @@
  **         Santiago Gil Begué, NIA: 683482
  ** -------------------------------------------------------------------------*/
 
-#include <memory>
-#include "src/KargerGraph.hpp"
+#include <KargerGraph.hpp>
 
 using namespace std;
 

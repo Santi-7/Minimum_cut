@@ -11,14 +11,23 @@
 void KargerGraph::AddProduct(std::shared_ptr<Product> product)
 {
     ProductsPack pack(product);
-    mPacks.push_back(pack);
+    // It's the first pack added to the graph.
+    if (mPacks.IsEmpty()) {
+        mPacks = pack;
+    }
+    // There already more packs added to the graph.
+    else {
+        // The previous pack of the first one marks the last pack in the array.
+        mPacks.GetPrevious()->SetNext(std::make_shared(pack));
+        pack.SetPrevious(mPacks.GetPrevious());
+    }
+    /* Update the previous pack of the first one in the array (which marks
+     * the last pack in the array) to the new one. */
+    mPacks.SetPrevious(std::make_shared(pack));
     // TODO: Fill the future attribute mPack of product.
-    // TODO: Fill previousPack and nexPack of [pack].
 }
 
 void KargerGraph::AddEdge(Edge edge)
 {
     mEdges.push_back(edge);
-    // TODO: Add shared_ptr to this edge to the packs of mP1, mP2.
 }
-

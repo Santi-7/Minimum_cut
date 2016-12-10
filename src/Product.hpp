@@ -33,4 +33,4 @@ private:
     std::string mName;
 };
 
-#endif //MINIMUM_CUT_PRODUCT_HPP
+#endif // MINIMUM_CUT_PRODUCT_HPP

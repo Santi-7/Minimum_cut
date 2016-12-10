@@ -9,8 +9,9 @@
 #ifndef MINIMUM_CUT_EDGE_HPP
 #define MINIMUM_CUT_EDGE_HPP
 
-#include <memory>
 #include "ProductsPack.hpp"
+
+#include <memory>
 
 class ProductsPack;
 
@@ -30,7 +31,8 @@ public:
      * @param p2 Second pack of Amazon's product.
      * @return an edge between the two packs of Amazon's products [p1] and [p2].
      */
-    Edge(const std::shared_ptr<ProductsPack> &p1, const std::shared_ptr<ProductsPack> &p2);
+    Edge(const std::shared_ptr<ProductsPack> &p1,
+         const std::shared_ptr<ProductsPack> &p2);
 
 private:
 
@@ -38,5 +40,4 @@ private:
     std::shared_ptr<ProductsPack> mP1, mP2;
 };
 
-
-#endif //MINIMUM_CUT_EDGE_HPP
+#endif // MINIMUM_CUT_EDGE_HPP

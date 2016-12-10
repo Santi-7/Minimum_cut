@@ -8,4 +8,5 @@
 
 #include "Product.hpp"
 
-Product::Product(const std::string& name) : mName(name) {}
+Product::Product(const std::string& name)
+: mName(name) {}

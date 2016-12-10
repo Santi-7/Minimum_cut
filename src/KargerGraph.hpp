@@ -9,8 +9,8 @@
 #ifndef MINIMUM_CUT_KARGERGRAPH_HPP
 #define MINIMUM_CUT_KARGERGRAPH_HPP
 
-#include "Product.hpp"
 #include "Edge.hpp"
+#include "Product.hpp"
 #include "ProductsPack.hpp"
 
 class KargerGraph
@@ -35,10 +35,10 @@ public:
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */
-    std::vector<ProductsPack> mPacks;
+    ProductsPack mPacks;
 
     /** Edges between the packs (edges of the graph). */
     std::vector<Edge> mEdges;
 };
 
-#endif //MINIMUM_CUT_KARGERGRAPH_HPP
+#endif // MINIMUM_CUT_KARGERGRAPH_HPP

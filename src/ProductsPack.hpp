@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  ** ProductsPack.hpp
- ** Container for a doubly linked list of Products.
+ ** Container for a circular doubly linked list of Products.
  **
  ** Author: Miguel Jorge Galindo Ramos, NIA: 679954
  **         Santiago Gil Begué, NIA: 683482

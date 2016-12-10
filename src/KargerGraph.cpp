@@ -32,6 +32,8 @@ void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
     /* Update the previous pack of the first one in the array (which marks
      * the last pack in the array) to the new one. */
     mPacks.SetPrevious(std::make_shared<ProductsPack>(pack));
+    // Make the list circular.
+    pack.SetNext(std::make_shared<ProductsPack>(mPacks));
     // Set the created pack to the product to fill later the edges correctly.
     product->SetPack(std::make_shared<ProductsPack>(pack));
 }
@@ -83,7 +85,6 @@ void KargerGraph::FuseStep()
         if (*randomEdge.GetPack2() == mPacks)
         {
             mPacks = *mPacks.GetNext();
-            mPacks.SetPrevious(nullptr);
         }
         else
         {

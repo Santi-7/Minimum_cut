@@ -9,16 +9,25 @@
 #include <KargerGraph.hpp>
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    // Check number of parameters.
+    // Check the number of parameters.
     if (argc != 2)
     {
         cerr << "Incorrect number of parameters, expected 1, received " << argc-1 << ".\n";
-        cerr << "Use: $" << argv[0] << " <file>" << endl;
+        cerr << "Usage: $> " << argv[0] << " <file>" << endl;
+        return 1;
+    }
+
+    // Open the input file.
+    ifstream file(argv[1]);
+    if (!file.is_open())
+    {
+        cerr << "Unable to open the file '" << argv[1] << "'." << endl;
         return 1;
     }
 

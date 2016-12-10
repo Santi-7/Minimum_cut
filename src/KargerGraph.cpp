@@ -83,13 +83,8 @@ void KargerGraph::FuseStep()
         }
     }
     // Remove randomEdge.GetPack2() from mPacks.
+    randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
+    randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
     if (*randomEdge.GetPack2() == mPacks)
-    {
         mPacks = *mPacks.GetNext();
-    }
-    else
-    {
-        randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
-        randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
-    }
 }

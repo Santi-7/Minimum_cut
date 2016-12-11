@@ -21,23 +21,21 @@ void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
 {
     ProductsPack pack(product);
     // Add the pack to the vector of packs.
+    pack.SetPosition(mPacks.size());
     mPacks.push_back(pack);
     // Set the created pack to the product to fill later the edges correctly.
-    std::shared_ptr<ProductsPack> pPack(std::make_shared<ProductsPack>(mPacks[mPacks.size()-1]));
-    product->SetPack(pPack);
-    pPack->SetPosition(mPacks.size()-1);
+    product->SetPack(std::make_shared<ProductsPack>(mPacks[mPacks.size()-1]));
 }
 
 void KargerGraph::AddEdge(Edge &edge)
 {
     // Add it to the vector of edges.
+    edge.SetPosition(mEdges.size());
     mEdges.push_back(edge);
     // Add this edge to both packs.
     std::shared_ptr<Edge> pEdge(std::make_shared<Edge>(mEdges[mEdges.size()-1]));
     pEdge->GetPack1()->AddEdge(pEdge);
     pEdge->GetPack2()->AddEdge(pEdge);
-    // Updates position of edge in the vector.
-    pEdge->SetPosition(mEdges.size()-1);
 }
 
 void KargerGraph::FuseStep()

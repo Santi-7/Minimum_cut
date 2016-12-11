@@ -32,11 +32,11 @@ void KargerGraph::AddEdge(Edge &edge)
     // Add it to the vector of edges.
     mEdges.push_back(edge);
     // Add this edge to both packs.
-    std::shared_ptr<Edge> pEdge(&mEdges[mEdges.size()]);
+    std::shared_ptr<Edge> pEdge(std::make_shared<Edge>(mEdges[mEdges.size()-1]));
     pEdge->GetPack1()->AddEdge(pEdge);
     pEdge->GetPack2()->AddEdge(pEdge);
     // Updates position of edge in the vector.
-    edge.SetPosition(mEdges.size()-1);
+    pEdge->SetPosition(mEdges.size()-1);
 }
 
 void KargerGraph::FuseStep()

@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
             numberOfProducts++; continue;
         }
         bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName)));
-        if (!emplacedCorrectly) { cout << "Error inserting product in the map.\n"; return 1;}
+        if (!emplacedCorrectly) { cerr << "Error inserting product in the map.\n"; return 1; }
         kargerGraph.AddProduct(shared_ptr<Product>(&productMap[productName]));
     }
 

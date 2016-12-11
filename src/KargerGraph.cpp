@@ -9,6 +9,7 @@
 #include "KargerGraph.hpp"
 
 #include <stdlib.h>
+#include <assert.h>
 
 KargerGraph::KargerGraph()
 {
@@ -51,6 +52,8 @@ void KargerGraph::AddEdge(Edge &edge)
 
 void KargerGraph::FuseStep()
 {
+    // Avoid division by zero.
+    assert(mEdges.size() > 0);
     // Get a random edge of the graph.
     Edge randomEdge = mEdges[rand() % mEdges.size()];
     // Fuses the products of both packs into the first one.
@@ -87,4 +90,14 @@ void KargerGraph::FuseStep()
     randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
     if (*randomEdge.GetPack2() == mPacks)
         mPacks = *mPacks.GetNext();
+}
+
+const ProductsPack KargerGraph::GetPacks()
+{
+    return mPacks;
+}
+
+const std::vector<Edge> KargerGraph::GetEdges()
+{
+    return mEdges;
 }

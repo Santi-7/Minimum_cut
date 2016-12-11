@@ -44,6 +44,16 @@ public:
      */
     void FuseStep();
 
+    /**
+     * @return The ProductPack in this graph
+     */
+    const ProductsPack GetPacks();
+
+    /**
+     * @return The Edges in this Graph.
+     */
+    const std::vector<Edge> GetEdges();
+
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */

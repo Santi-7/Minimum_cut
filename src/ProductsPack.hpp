@@ -51,20 +51,6 @@ public:
     void AddEdge(const std::shared_ptr<Edge> edge);
 
     /**
-     * Returns the products of this pack.
-     *
-     * @return the products of this pack.
-     */
-    std::vector<std::shared_ptr<Product>> GetProducts() const;
-
-    /**
-     * Returns the edges of this pack.
-     *
-     * @return the edges of this pack.
-     */
-    std::vector<std::shared_ptr<Edge>> GetEdges() const;
-
-    /**
      * Returns the pack's position in the vector of packs of the Karger's Graph.
      *
      * @return the pack's position in the vector of packs of the Karger's Graph.
@@ -84,7 +70,7 @@ public:
      */
     void Print();
 
-private:
+public:
 
     /** Amazon's products that belong to this pack. */
     std::vector<std::shared_ptr<Product>> mProducts;
@@ -92,6 +78,8 @@ private:
     /** Packs of Amazon's products whose products, at least one, have been
      * bought with, at least, one product of this pack at least once. */
     std::vector<std::shared_ptr<Edge>> mEdges;
+
+private:
 
     /** In order to manage O(1) when deleting a pack from the vector, a ProductsPack must
      * maintain the position it has in the vector of packs of the Karger's Graph.

@@ -26,16 +26,6 @@ void ProductsPack::AddEdge(const std::shared_ptr<Edge> edge)
     mEdges.push_back(edge);
 }
 
-std::vector<std::shared_ptr<Product>> ProductsPack::GetProducts() const
-{
-    return mProducts;
-}
-
-std::vector<std::shared_ptr<Edge>> ProductsPack::GetEdges() const
-{
-    return mEdges;
-}
-
 unsigned long ProductsPack::GetPosition() const
 {
     return mPosition;

@@ -21,11 +21,13 @@ void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
 {
     ProductsPack pack(product);
     // It's the first pack added to the graph.
-    if (mPacks.IsEmpty()) {
+    if (mPacks.IsEmpty())
+    {
         mPacks = pack;
     }
     // There are already packs added in the graph.
-    else {
+    else
+    {
         // The previous pack of the first one marks the last pack in the array.
         mPacks.GetPrevious()->SetNext(std::make_shared<ProductsPack>(pack));
         pack.SetPrevious(mPacks.GetPrevious());

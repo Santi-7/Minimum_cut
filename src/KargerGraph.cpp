@@ -46,9 +46,19 @@ void KargerGraph::FuseStep()
     Edge randomEdge = mEdges[rand() % mEdges.size()];
     // Fuses the products of both packs into the first one.
     randomEdge.GetPack1()->AddProducts(randomEdge.GetPack2()->GetProducts());
+    // Remove self-loop edges from first pack.
+    // TODO: Check if this vector is the same as the one inside the pack.
+    std::vector<std::shared_ptr<Edge>> edges = randomEdge.GetPack1()->GetEdges();
+    for (unsigned long i(0); i < edges.size(); ++i)
+    {
+        if (*edges[i] == randomEdge)
+        {
+            edges[i] = edges[edges.size()-1];
+            edges.pop_back();
+        }
+    }
     // Fuses the edges of both packs into the first one.
-    std::vector<std::shared_ptr<Edge>> edges = randomEdge.GetPack2()->GetEdges();
-    for (std::shared_ptr<Edge> edge : edges)
+    for (std::shared_ptr<Edge> edge : randomEdge.GetPack2()->GetEdges())
     {
         // Remove this edge (it will be a self-loop edge otherwise).
         if (*edge == randomEdge)
@@ -56,7 +66,7 @@ void KargerGraph::FuseStep()
             /* To manage O(1), put the last edge of the vector in the position of the
              * deleted edge, and pop the last edge. */
             mEdges[edges.size()-1].SetPosition(edge->GetPosition());
-            std::swap(mEdges[edge->GetPosition()], mEdges[mEdges.size()-1]);
+            mEdges[edge->GetPosition()] = mEdges[mEdges.size()-1];
             mEdges.pop_back();
         }
         else // edge != randomEdge

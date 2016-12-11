@@ -25,11 +25,11 @@ using namespace std;
 std::string& TrimSpaces (std::string & str)
 {
     // right trim.
-    while (str.length () > 0 && (str [str.length ()-1] == ' ' || str [str.length ()-1] == '\t'))
+    while (str.length () > 0 && (str [str.length ()-1] == ' ' || str [str.length ()-1] == '\t' || str [str.length ()-1] == '\n'))
         str.erase (str.length ()-1, 1);
 
     // left trim.
-    while (str.length () > 0 && (str [0] == ' ' || str [0] == '\t'))
+    while (str.length () > 0 && (str [0] == ' ' || str [0] == '\t' || str [0] == '\n'))
         str.erase (0, 1);
     return str;
 }

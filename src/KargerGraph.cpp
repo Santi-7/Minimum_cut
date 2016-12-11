@@ -49,7 +49,7 @@ void KargerGraph::FuseStep()
     randomEdge.GetPack1()->AddProducts(randomEdge.GetPack2()->GetProducts());
     // Fuses the edges of both packs into the first one.
     std::vector<std::shared_ptr<Edge>> edges = randomEdge.GetPack2()->GetEdges();
-    for (const std::shared_ptr<Edge> edge : edges)
+    for (std::shared_ptr<Edge> edge : edges)
     {
         // Remove this edge (it will be a self-loop edge otherwise).
         if (*edge == randomEdge)

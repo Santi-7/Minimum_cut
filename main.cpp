@@ -24,11 +24,11 @@ using namespace std;
  */
 std::string& TrimSpaces (std::string & str)
 {
-    // right trim
+    // right trim.
     while (str.length () > 0 && (str [str.length ()-1] == ' ' || str [str.length ()-1] == '\t'))
         str.erase (str.length ()-1, 1);
 
-    // left trim
+    // left trim.
     while (str.length () > 0 && (str [0] == ' ' || str [0] == '\t'))
         str.erase (0, 1);
     return str;
@@ -84,20 +84,16 @@ int main(int argc, char *argv[])
         productName2 = TrimSpaces(productName2);
 
         if ((productName1.size() == 0) | (productName2.size() == 0))
-        {
             continue;
-        }
 
         Edge tmpEdge(productMap[productName1].GetPack(), productMap[productName2].GetPack());
         kargerGraph.AddEdge(tmpEdge);
     }
 
     // Karger's algorithm. Contract a random edge until only two vertices exist.
-    unsigned long step = productMap.size();
-    while (step --> 2)
-    {
+    unsigned long vertices = productMap.size();
+    while (vertices --> 2)
         kargerGraph.FuseStep();
-    }
 
     //cout << kargerGraph.mEdges.size() << '\n';
     // TODO: mPacks in kargerGraph will have the two desired packs. Show them.

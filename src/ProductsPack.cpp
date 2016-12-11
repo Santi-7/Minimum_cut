@@ -6,6 +6,7 @@
  **         Santiago Gil Begué, NIA: 683482
  ** -------------------------------------------------------------------------*/
 
+#include <iostream>
 #include "ProductsPack.hpp"
 
 ProductsPack::ProductsPack() {}
@@ -45,11 +46,10 @@ void ProductsPack::SetPosition(const unsigned long position)
     mPosition = position;
 }
 
-std::ostream& operator<<(std::ostream &out, const ProductsPack &pack)
+void ProductsPack::Print()
 {
-    out << "Pack number " << std::to_string(pack.mPosition) << "\n";
-    out << "=============" << "\n";
-    for (std::shared_ptr<Product> product : pack.mProducts)
-        out << *product << "\n";
-    return out;
+    std::cout << "Pack number " << std::to_string(mPosition) << "\n";
+    std::cout << "=============" << "\n";
+    for (std::shared_ptr<Product> product : mProducts)
+        std::cout << *product << "\n";
 }

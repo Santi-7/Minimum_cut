@@ -100,6 +100,6 @@ int main(int argc, char *argv[])
         kargerGraph.FuseStep();
 
     // Show results.
-    cout << "The min cut is " << kargerGraph.GetEdges().size() << '.\n';
-    for (ProductsPack pack : kargerGraph.GetPacks()) cout << pack;
+    cout << "The min cut is " << kargerGraph.GetEdges().size() << ".\n";
+    for (ProductsPack pack : kargerGraph.GetPacks()) pack.Print();
 }

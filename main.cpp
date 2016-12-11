@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     while (vertices --> 2)
         kargerGraph.FuseStep();
 
-    //cout << kargerGraph.mEdges.size() << '\n';
-    // TODO: mPacks in kargerGraph will have the two desired packs. Show them.
-    // TODO: mEdges.size() will mean the min cut.
+    // Show results.
+    cout << "The min cut is " << kargerGraph.GetEdges().size() << '.\n';
+    for (const ProductsPack pack : kargerGraph.GetPacks()) cout << pack;
 }

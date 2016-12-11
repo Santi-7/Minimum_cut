@@ -79,6 +79,15 @@ public:
      */
     void SetPosition(const unsigned long position);
 
+    /**
+     * Pretty print.
+     *
+     * @param out Stream that will receive the ProductsPack [pack] as a string.
+     * @param pack ProductsPack to send to the stream as a string.
+     * @return Stream with a string version of [pack].
+     */
+    friend std::ostream& operator<<(std::ostream &out, const ProductsPack &pack);
+
 private:
 
     /** Amazon's products that belong to this pack. */

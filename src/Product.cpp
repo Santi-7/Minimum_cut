@@ -23,3 +23,9 @@ void Product::SetPack(const std::shared_ptr<ProductsPack> &pack)
 {
     mPack = pack;
 }
+
+std::ostream& operator<<(std::ostream &out, const Product &product)
+{
+    out << product.mName;
+    return out;
+}

@@ -44,3 +44,13 @@ void ProductsPack::SetPosition(const unsigned long position)
 {
     mPosition = position;
 }
+
+std::ostream& operator<<(std::ostream &out, const ProductsPack &pack)
+{
+    out << "Pack number " << std::to_string(pack.mPosition) << "\n";
+    out << "=============" << "\n";
+    for (const std::shared_ptr<Product> product : pack.mProducts) {
+        out << *product << "\n";
+    }
+    return out;
+}

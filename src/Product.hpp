@@ -50,6 +50,15 @@ public:
      */
     void SetPack(const std::shared_ptr<ProductsPack> &pack);
 
+    /**
+     * Pretty print.
+     *
+     * @param out Stream that will receive the Product [product] as a string.
+     * @param product Product to send to the stream as a string.
+     * @return Stream with a string version of [product].
+     */
+    friend std::ostream& operator<<(std::ostream &out, const Product &product);
+
 private:
 
     /** Name of the Amazon's product. */

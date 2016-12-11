@@ -51,8 +51,6 @@ void ProductsPack::Print()
     std::cout << "Pack number " << std::to_string(mPosition) << "\n";
     std::cout << "=============" << "\n";
     for (std::shared_ptr<Product> product : mProducts)
-    {
         std::cout << *product << "\n";
-    }
     std::cout << "\n";
 }

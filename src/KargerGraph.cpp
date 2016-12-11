@@ -67,6 +67,7 @@ void KargerGraph::FuseStep()
         {
             /* To manage O(1), put the last edge of the vector in the position of the
              * deleted edge, and pop the last edge. */
+            mEdges[edges.size()-1].SetPosition(edge->GetPosition());
             mEdges[edge->GetPosition()] = mEdges[edges.size()-1];
             mEdges.pop_back();
         }

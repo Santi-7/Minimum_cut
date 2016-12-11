@@ -8,6 +8,9 @@
 
 #include "Product.hpp"
 
+Product::Product()
+: mName("") {}
+
 Product::Product(const std::string& name)
 : mName(name) {}
 

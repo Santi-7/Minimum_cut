@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
         productName1 = TrimSpaces(productName1);
         productName2 = TrimSpaces(productName2);
 
-        if (productName1.size() == 0 || productName2.size() == 0)
+        if ((productName1.size() == 0) | (productName2.size() == 0))
         {
             continue;
         }

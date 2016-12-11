@@ -24,9 +24,9 @@ class Product
 public:
 
     /**
-     * Default constructor with empty product name
+     * Default constructor with empty product name.
      */
-    Product(): mName("") {}
+    Product();
 
     /**
      * Creates an Amazon's product with name [name].

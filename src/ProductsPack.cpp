@@ -17,7 +17,7 @@ ProductsPack::ProductsPack(const std::shared_ptr<Product> &initialProduct)
 
 void ProductsPack::AddProducts(const std::vector<std::shared_ptr<Product>> &products)
 {
-    mProducts.insert( products.end(), products.begin(), products.end() );
+    mProducts.insert( mProducts.end(), products.begin(), products.end() );
 }
 
 void ProductsPack::AddEdge(const std::shared_ptr<Edge> &edge)

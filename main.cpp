@@ -73,9 +73,9 @@ int main(int argc, char *argv[])
         {
             numberOfProducts++; continue;
         }
-        // TODO: Check that the pointer in the graph points to the map
-        auto productInMap = productMap.emplace(productName, Product(productName));
-        kargerGraph.AddProduct(shared_ptr<Product>(&get<1>(*get<0>(productInMap))));
+        bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName)));
+        if (!emplacedCorrectly) { cout << "Error inserting product in the map.\n"; return 1;}
+        kargerGraph.AddProduct(shared_ptr<Product>(&productMap[productName]));
     }
 
     // Read all the edges in the input file.

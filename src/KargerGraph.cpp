@@ -19,12 +19,12 @@ KargerGraph::KargerGraph()
 
 void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
 {
-    ProductsPack pack(product);
     // Add the pack to the vector of packs.
-    pack.SetPosition(mPacks.size());
-    mPacks.push_back(pack);
+    mPacks.push_back(ProductsPack(product));
+    mPacks[mPacks.size()-1].SetPosition(mPacks.size());
+
     // Set the created pack to the product to fill later the edges correctly.
-    product->SetPack(std::make_shared<ProductsPack>(mPacks[mPacks.size()-1]));
+    product->SetPack(std::shared_ptr<ProductsPack>(&mPacks[mPacks.size()-1]));
 }
 
 void KargerGraph::AddEdge(Edge &edge)

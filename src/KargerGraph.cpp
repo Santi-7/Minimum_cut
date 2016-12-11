@@ -35,6 +35,8 @@ void KargerGraph::AddEdge(Edge &edge)
 
     // Add this edge to both packs.
     std::shared_ptr<Edge> pEdge = std::shared_ptr<Edge>(&mEdges[mEdges.size()-1]);
+    ProductsPack p1 = *pEdge->GetPack1();
+    ProductsPack p2 = *pEdge->GetPack2();
     pEdge->GetPack1()->AddEdge(pEdge);
     pEdge->GetPack2()->AddEdge(pEdge);
 }

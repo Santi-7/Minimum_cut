@@ -30,3 +30,9 @@
 
 # JetBrain IDE
 .idea/
+
+# Build
+build/
+
+# Input files' examples
+examples/

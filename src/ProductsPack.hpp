@@ -48,7 +48,7 @@ public:
      *
      * @param edge to be added to this pack.
      */
-    void AddEdge(const std::shared_ptr<Edge> edge);
+    void AddEdge(const std::shared_ptr<Edge> &edge);
 
     /**
      * Returns the pack's position in the vector of packs of the Karger's Graph.

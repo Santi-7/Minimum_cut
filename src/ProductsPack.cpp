@@ -6,8 +6,9 @@
  **         Santiago Gil Begué, NIA: 683482
  ** -------------------------------------------------------------------------*/
 
-#include <iostream>
 #include "ProductsPack.hpp"
+
+#include <iostream>
 
 ProductsPack::ProductsPack() {}
 
@@ -36,7 +37,7 @@ void ProductsPack::SetPosition(const unsigned long position)
     mPosition = position;
 }
 
-void ProductsPack::Print()
+void ProductsPack::Print() const
 {
     std::cout << "Pack number " << std::to_string(mPosition) << "\n";
     std::cout << "=============" << "\n";

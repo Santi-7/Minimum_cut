@@ -68,7 +68,7 @@ public:
     /**
      * Prints the information in this ProductsPack
      */
-    void Print();
+    void Print() const;
 
 public:
 

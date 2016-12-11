@@ -101,5 +101,5 @@ int main(int argc, char *argv[])
 
     // Show results.
     cout << "The min cut is " << kargerGraph.GetEdges().size() << '.\n';
-    for (const ProductsPack pack : kargerGraph.GetPacks()) cout << pack;
+    for (ProductsPack pack : kargerGraph.GetPacks()) cout << pack;
 }

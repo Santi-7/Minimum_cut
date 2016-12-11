@@ -11,7 +11,7 @@
 Product::Product()
 : mName("") {}
 
-Product::Product(const std::string& name)
+Product::Product(const std::string &name)
 : mName(name) {}
 
 std::shared_ptr<ProductsPack> Product::GetPack() const

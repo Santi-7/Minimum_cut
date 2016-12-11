@@ -20,23 +20,9 @@ KargerGraph::KargerGraph()
 void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
 {
     ProductsPack pack(product);
-    // It's the first pack added to the graph.
-    if (mPacks.IsEmpty())
-    {
-        mPacks = pack;
-    }
-    // There are already packs added in the graph.
-    else
-    {
-        // The previous pack of the first one marks the last pack in the array.
-        mPacks.GetPrevious()->SetNext(std::make_shared<ProductsPack>(pack));
-        pack.SetPrevious(mPacks.GetPrevious());
-    }
-    /* Update the previous pack of the first one in the array (which marks
-     * the last pack in the array) to the new one. */
-    mPacks.SetPrevious(std::make_shared<ProductsPack>(pack));
-    // Make the list circular.
-    pack.SetNext(std::make_shared<ProductsPack>(mPacks));
+    // Add the pack to the vector of packs.
+    pack.SetPosition(mPacks.size());
+    mPacks.push_back(pack);
     // Set the created pack to the product to fill later the edges correctly.
     product->SetPack(std::make_shared<ProductsPack>(pack));
 }
@@ -90,18 +76,17 @@ void KargerGraph::FuseStep()
         }
     }
     // Remove randomEdge.GetPack2() from mPacks.
-    randomEdge.GetPack2()->GetNext()->SetPrevious(randomEdge.GetPack2()->GetPrevious());
-    randomEdge.GetPack2()->GetPrevious()->SetNext(randomEdge.GetPack2()->GetNext());
-    if (*randomEdge.GetPack2() == mPacks)
-        mPacks = *mPacks.GetNext();
+    mPacks[mPacks.size()-1].SetPosition(randomEdge.GetPack2()->GetPosition());
+    mPacks[randomEdge.GetPack2()->GetPosition()] = mPacks[mPacks.size()-1];
+    mPacks.pop_back();
 }
 
-const ProductsPack KargerGraph::GetPacks()
+std::vector<ProductsPack> KargerGraph::GetPacks() const
 {
     return mPacks;
 }
 
-const std::vector<Edge> KargerGraph::GetEdges()
+std::vector<Edge> KargerGraph::GetEdges() const
 {
     return mEdges;
 }

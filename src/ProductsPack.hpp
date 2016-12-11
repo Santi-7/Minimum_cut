@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  ** ProductsPack.hpp
- ** Container for a circular doubly linked list of Products.
+ ** Container for a list of Products.
  **
  ** Author: Miguel Jorge Galindo Ramos, NIA: 679954
  **         Santiago Gil Begué, NIA: 683482
@@ -51,13 +51,6 @@ public:
     void AddEdge(const std::shared_ptr<Edge> &edge);
 
     /**
-     * Returns true if the pack has no products.
-     *
-     * @return true if the pack has no products.
-     */
-    bool IsEmpty() const;
-
-    /**
      * Returns the products of this pack.
      *
      * @return the products of this pack.
@@ -72,42 +65,19 @@ public:
     std::vector<std::shared_ptr<Edge>> GetEdges() const;
 
     /**
-     * Returns the previous pack.
+     * Returns the pack's position in the vector of packs of the Karger's Graph.
      *
-     * @return the previous pack.
+     * @return the pack's position in the vector of packs of the Karger's Graph.
      */
-    std::shared_ptr<ProductsPack> GetPrevious() const;
+    unsigned long GetPosition() const;
 
     /**
-     * Returns the next pack.
+     * Sets the pack's position in the vector of packs of the Karger's Graph to [position].
      *
-     * @return the next pack.
+     * @param position to be set as the new position of this pack in the vector of packs
+     *                 of the Karger's Graph to [position].
      */
-    std::shared_ptr<ProductsPack> GetNext() const;
-
-    /**
-     * Sets [previous] to the previous ProductsPack.
-     *
-     * @param previous ProductsPack to be set as the previous pack.
-     */
-    void SetPrevious(const std::shared_ptr<ProductsPack> &previous);
-
-    /**
-     * Sets [next] to the next ProductsPack.
-     *
-     * @param next ProductsPack to be set as the next pack.
-     */
-    void SetNext(const std::shared_ptr<ProductsPack> &next);
-
-    /**
-     * Overloads == operator to return true if both packs are the same, this is for example,
-     * in the fastest way, they share the same position in the array.
-     *
-     * @param pack1 first ProductsPack in the comparison.
-     * @param pack2 second ProductsPack in the comparison.
-     * @return true if both packs are the same,
-     */
-    friend bool operator==(const ProductsPack &pack1, const ProductsPack &pack2);
+    void SetPosition(const unsigned long position);
 
 private:
 
@@ -118,10 +88,10 @@ private:
      * bought with, at least, one product of this pack at least once. */
     std::vector<std::shared_ptr<Edge>> mEdges;
 
-    /** In order to manage O(1) when deleting (fusing) a ProductsPack from an array,
-     * a ProductsPack has these two pointers to the previous and next pack in the array.
-     * Note: they will have to be filled when inserting the pack into the array. */
-    std::shared_ptr<ProductsPack> mPreviousPack = nullptr, mNextPack = nullptr;
+    /** In order to manage O(1) when deleting a pack from the vector, a ProductsPack must
+     * maintain the position it has in the vector of packs of the Karger's Graph.
+     * Note: It must be updated. */
+    unsigned long mPosition;
 };
 
 #endif // MINIMUM_CUT_PRODUCTSPACK_HPP

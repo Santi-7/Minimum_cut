@@ -45,19 +45,19 @@ public:
     void FuseStep();
 
     /**
-     * @return The ProductPack in this graph
+     * @return The ProductPacks of this Graph.
      */
-    const ProductsPack GetPacks();
+    std::vector<ProductsPack> GetPacks() const;
 
     /**
-     * @return The Edges in this Graph.
+     * @return The Edges of this Graph.
      */
-    const std::vector<Edge> GetEdges();
+    std::vector<Edge> GetEdges() const;
 
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */
-    ProductsPack mPacks;
+    std::vector<ProductsPack> mPacks;
 
     /** Edges between the packs (edges of the graph). */
     std::vector<Edge> mEdges;

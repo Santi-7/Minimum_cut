@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         }
         bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName)));
         if (!emplacedCorrectly) { cerr << "Error inserting product in the map.\n"; return 1; }
-        kargerGraph.AddProduct(shared_ptr<Product>(&productMap[productName]));
+        kargerGraph.AddProduct(&productMap[productName]);
     }
 
     // Read all the edges in the input file.
@@ -101,8 +101,7 @@ int main(int argc, char *argv[])
 
     // Karger's algorithm. Contract a random edge until only two vertices exist.
     unsigned long vertices = productMap.size();
-    while (vertices --> 2)
-        kargerGraph.FuseStep();
+    while (vertices --> 2) kargerGraph.FuseStep();
 
     // Show results.
     cout << "The min cut is " << kargerGraph.GetEdges().size() << ".\n\n";

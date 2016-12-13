@@ -12,17 +12,17 @@
 
 ProductsPack::ProductsPack() {}
 
-ProductsPack::ProductsPack(const std::shared_ptr<Product> &initialProduct)
+ProductsPack::ProductsPack(Product *initialProduct)
 {
     mProducts.push_back(initialProduct);
 }
 
-void ProductsPack::AddProducts(const std::vector<std::shared_ptr<Product>> &products)
+void ProductsPack::AddProducts(const std::vector<Product*> &products)
 {
     mProducts.insert( mProducts.end(), products.begin(), products.end() );
 }
 
-void ProductsPack::AddEdge(const std::shared_ptr<Edge> &edge)
+void ProductsPack::AddEdge(Edge *edge)
 {
     mEdges.push_back(edge);
 }
@@ -41,7 +41,7 @@ void ProductsPack::Print() const
 {
     std::cout << "Pack number " << std::to_string(mPosition) << "\n";
     std::cout << "=============" << "\n";
-    for (std::shared_ptr<Product> product : mProducts)
+    for (Product *product : mProducts)
         std::cout << *product << "\n";
     std::cout << "\n";
 }

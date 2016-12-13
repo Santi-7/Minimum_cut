@@ -12,7 +12,6 @@
 #include "Edge.hpp"
 #include "Product.hpp"
 
-#include <memory>
 #include <vector>
 
 class Edge;
@@ -34,21 +33,21 @@ public:
      * @param initialProduct of the pack.
      * @return a pack of products with an initial product [initialProduct].
      */
-    ProductsPack(const std::shared_ptr<Product> &initialProduct);
+    ProductsPack(Product *initialProduct);
 
     /**
      * Adds the Products [products] to this pack.
      *
      * @param products to be added to this pack.
      */
-    void AddProducts(const std::vector<std::shared_ptr<Product>> &products);
+    void AddProducts(const std::vector<Product*> &products);
 
     /**
      * Adds the Edge [edge] to this pack.
      *
      * @param edge to be added to this pack.
      */
-    void AddEdge(const std::shared_ptr<Edge> &edge);
+    void AddEdge(Edge *edge);
 
     /**
      * Returns the pack's position in the vector of packs of the Karger's Graph.
@@ -73,11 +72,11 @@ public:
 public:
 
     /** Amazon's products that belong to this pack. */
-    std::vector<std::shared_ptr<Product>> mProducts;
+    std::vector<Product*> mProducts;
 
     /** Packs of Amazon's products whose products, at least one, have been
      * bought with, at least, one product of this pack at least once. */
-    std::vector<std::shared_ptr<Edge>> mEdges;
+    std::vector<Edge*> mEdges;
 
 private:
 

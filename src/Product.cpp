@@ -14,12 +14,12 @@ Product::Product()
 Product::Product(const std::string &name)
 : mName(name) {}
 
-std::shared_ptr<ProductsPack> Product::GetPack() const
+ProductsPack* Product::GetPack() const
 {
     return mPack;
 }
 
-void Product::SetPack(const std::shared_ptr<ProductsPack> &pack)
+void Product::SetPack(ProductsPack *pack)
 {
     mPack = pack;
 }

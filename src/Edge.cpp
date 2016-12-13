@@ -8,26 +8,25 @@
 
 #include "Edge.hpp"
 
-Edge::Edge(const std::shared_ptr<ProductsPack> &p1,
-           const std::shared_ptr<ProductsPack> &p2)
+Edge::Edge(ProductsPack *p1, ProductsPack *p2)
 : mP1(p1), mP2(p2) {}
 
-std::shared_ptr<ProductsPack> Edge::GetPack1() const
+ProductsPack* Edge::GetPack1() const
 {
     return mP1;
 }
 
-std::shared_ptr<ProductsPack> Edge::GetPack2() const
+ProductsPack* Edge::GetPack2() const
 {
     return mP2;
 }
 
-void Edge::SetPack1(std::shared_ptr<ProductsPack> pack)
+void Edge::SetPack1(ProductsPack *pack)
 {
     mP1 = pack;
 }
 
-void Edge::SetPack2(std::shared_ptr<ProductsPack> pack)
+void Edge::SetPack2(ProductsPack *pack)
 {
     mP2 = pack;
 }

@@ -17,14 +17,14 @@ KargerGraph::KargerGraph()
     srand(time(NULL));
 }
 
-void KargerGraph::AddProduct(const std::shared_ptr<Product> &product)
+void KargerGraph::AddProduct(Product *product)
 {
     // Add the pack to the vector of packs.
     mPacks.push_back(ProductsPack(product));
-    mPacks[mPacks.size()-1].SetPosition(mPacks.size()-1);
+    mPacks.back().SetPosition(mPacks.size()-1);
 
     // Set the created pack to the product to fill later the edges correctly.
-    product->SetPack(std::shared_ptr<ProductsPack>(&mPacks[mPacks.size()-1]));
+    product->SetPack(&mPacks.back());
 }
 
 void KargerGraph::AddEdge(Edge &edge)
@@ -34,7 +34,7 @@ void KargerGraph::AddEdge(Edge &edge)
     mEdges.push_back(edge);
 
     // Add this edge to both packs.
-    std::shared_ptr<Edge> pEdge = std::shared_ptr<Edge>(&mEdges[mEdges.size()-1]);
+    Edge *pEdge = &mEdges.back();
     pEdge->GetPack1()->AddEdge(pEdge);
     pEdge->GetPack2()->AddEdge(pEdge);
 }
@@ -48,7 +48,8 @@ void KargerGraph::FuseStep()
     // Fuses the products of both packs into the first one.
     randomEdge.GetPack1()->AddProducts(randomEdge.GetPack2()->mProducts);
     // Remove self-loop edges from first pack.
-    for (unsigned long i(0); i < randomEdge.GetPack1()->mEdges.size(); ++i)
+    unsigned long packSize = randomEdge.GetPack1()->mEdges.size();
+    for (unsigned long i(0); i < packSize; ++i)
     {
         if (*randomEdge.GetPack1()->mEdges[i] == randomEdge)
         {
@@ -57,15 +58,15 @@ void KargerGraph::FuseStep()
         }
     }
     // Fuses the edges of both packs into the first one.
-    for (std::shared_ptr<Edge> edge : randomEdge.GetPack2()->mEdges)
+    for (Edge *edge : randomEdge.GetPack2()->mEdges)
     {
         // Remove this edge (it will be a self-loop edge otherwise).
         if (*edge == randomEdge)
         {
             /* To manage O(1), put the last edge of the vector in the position of the
              * deleted edge, and pop the last edge. */
-            mEdges[mEdges.size()-1].SetPosition(edge->GetPosition());
-            mEdges[edge->GetPosition()] = mEdges[mEdges.size()-1];
+            mEdges.back().SetPosition(edge->GetPosition());
+            mEdges[edge->GetPosition()] = mEdges.back();
             mEdges.pop_back();
         }
         else // edge != randomEdge
@@ -84,17 +85,17 @@ void KargerGraph::FuseStep()
         }
     }
     // Remove randomEdge.GetPack2() from mPacks.
-    mPacks[mPacks.size()-1].SetPosition(randomEdge.GetPack2()->GetPosition());
-    mPacks[randomEdge.GetPack2()->GetPosition()] = mPacks[mPacks.size()-1];
+    mPacks.back().SetPosition(randomEdge.GetPack2()->GetPosition());
+    mPacks[randomEdge.GetPack2()->GetPosition()] = mPacks.back();
     mPacks.pop_back();
 }
 
-std::vector<ProductsPack> KargerGraph::GetPacks() const
+std::deque<ProductsPack> KargerGraph::GetPacks() const
 {
     return mPacks;
 }
 
-std::vector<Edge> KargerGraph::GetEdges() const
+std::deque<Edge> KargerGraph::GetEdges() const
 {
     return mEdges;
 }

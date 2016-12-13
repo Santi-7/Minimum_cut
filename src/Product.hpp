@@ -11,7 +11,7 @@
 
 #include "ProductsPack.hpp"
 
-#include <memory>
+#include <string>
 
 class ProductsPack;
 
@@ -41,14 +41,14 @@ public:
      *
      * @return the ProductsPack this product belongs to initially.
      */
-    std::shared_ptr<ProductsPack> GetPack() const;
+    ProductsPack* GetPack() const;
 
     /**
      * Sets the initial ProductsPack of this product to [pack].
      *
      * @param pack this product belongs to initially.
      */
-    void SetPack(const std::shared_ptr<ProductsPack> &pack);
+    void SetPack(ProductsPack *pack);
 
     /**
      * Pretty print.
@@ -66,7 +66,7 @@ private:
 
     /** ProductsPack this product belongs to initially. This attribute is
      * only used in the construction of the initial Karger's Graph. */
-    std::shared_ptr<ProductsPack> mPack;
+    ProductsPack *mPack;
 };
 
 #endif // MINIMUM_CUT_PRODUCT_HPP

@@ -13,6 +13,8 @@
 #include "Product.hpp"
 #include "ProductsPack.hpp"
 
+#include <deque>
+
 class KargerGraph
 {
 
@@ -30,7 +32,7 @@ public:
      *
      * @param product to be added to the Karger's Graph as a vertice.
      */
-    void AddProduct(const std::shared_ptr<Product> &product);
+    void AddProduct(Product *product);
 
     /**
      * Adds the Edge [edge] to the Karger's Graph as an edge.
@@ -47,20 +49,20 @@ public:
     /**
      * @return The ProductPacks of this Graph.
      */
-    std::vector<ProductsPack> GetPacks() const;
+    std::deque<ProductsPack> GetPacks() const;
 
     /**
      * @return The Edges of this Graph.
      */
-    std::vector<Edge> GetEdges() const;
+    std::deque<Edge> GetEdges() const;
 
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */
-    std::vector<ProductsPack> mPacks;
+    std::deque<ProductsPack> mPacks;
 
     /** Edges between the packs (edges of the graph). */
-    std::vector<Edge> mEdges;
+    std::deque<Edge> mEdges;
 };
 
 #endif // MINIMUM_CUT_KARGERGRAPH_HPP

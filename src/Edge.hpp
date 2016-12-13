@@ -11,8 +11,6 @@
 
 #include "ProductsPack.hpp"
 
-#include <memory>
-
 class ProductsPack;
 
 /**
@@ -31,34 +29,33 @@ public:
      * @param p2 Second pack of Amazon's products.
      * @return an edge between the two packs of Amazon's products [p1] and [p2].
      */
-    Edge(const std::shared_ptr<ProductsPack> &p1,
-         const std::shared_ptr<ProductsPack> &p2);
+    Edge(ProductsPack *p1, ProductsPack *p2);
 
     /**
      * Returns the first pack.
      * @return the first pack.
      */
-    std::shared_ptr<ProductsPack> GetPack1() const;
+    ProductsPack* GetPack1() const;
 
     /**
      * Returns the second pack.
      * @return the second pack.
      */
-    std::shared_ptr<ProductsPack> GetPack2() const;
+    ProductsPack* GetPack2() const;
 
     /**
      * Sets the first pack to [pack].
      *
      * @param pack to be set as the first pack.
      */
-    void SetPack1(std::shared_ptr<ProductsPack> pack);
+    void SetPack1(ProductsPack *pack);
 
     /**
      * Sets the second pack to [pack].
      *
      * @param pack to be set as the second pack.
      */
-    void SetPack2(std::shared_ptr<ProductsPack> pack);
+    void SetPack2(ProductsPack *pack);
 
     /**
      * Returns the edge's position in the vector of edges of the Karger's Graph.
@@ -89,7 +86,7 @@ public:
 private:
 
     /** Packs of Amazon's products which products, at least one, have been bought together. */
-    std::shared_ptr<ProductsPack> mP1, mP2;
+    ProductsPack *mP1, *mP2;
 
     /** In order to manage O(1) when deleting an edge from the vector, an edge must maintain
      * the position it has in the vector of edges of the Karger's Graph.

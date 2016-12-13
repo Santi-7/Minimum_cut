@@ -14,7 +14,7 @@
 KargerGraph::KargerGraph()
 {
     // Initializes the random numbers generator's seed.
-    srand(0);
+    srand(time(NULL));
 }
 
 void KargerGraph::AddProduct(Product *product)
@@ -63,6 +63,23 @@ void KargerGraph::FuseStep()
         // Remove this edge (it will be a self-loop edge otherwise).
         if (*edge == randomEdge)
         {
+            // Update the pointers (in both packs) to the last edge to the new position.
+            for (unsigned long i(0); i < mEdges.back().GetPack1()->mEdges.size(); ++i)
+            {
+                if (mEdges.back().GetPack1()->mEdges[i] == &mEdges.back())
+                {
+                    mEdges.back().GetPack1()->mEdges[i] = &mEdges[edge->GetPosition()];
+                    break;
+                }
+            }
+            for (unsigned long i(0); i < mEdges.back().GetPack2()->mEdges.size(); ++i)
+            {
+                if (mEdges.back().GetPack2()->mEdges[i] == &mEdges.back())
+                {
+                    mEdges.back().GetPack2()->mEdges[i] = &mEdges[edge->GetPosition()];
+                    break;
+                }
+            }
             /* To manage O(1), put the last edge of the vector in the position of the
              * deleted edge, and pop the last edge. */
             mEdges.back().SetPosition(edge->GetPosition());
@@ -73,20 +90,26 @@ void KargerGraph::FuseStep()
         {
             // Change the own pack vertice of the edge to the fused one.
             if (edge->GetPack1() == randomEdge.GetPack2())
-            {
                 edge->SetPack1(randomEdge.GetPack1());
-            }
             else // edge->GetPack1() != randomEdge.GetPack2()
-            {
                 edge->SetPack2(randomEdge.GetPack1());
-            }
             // Add the edge to the fused one.
             randomEdge.GetPack1()->AddEdge(edge);
         }
     }
-    // Remove randomEdge.GetPack2() from mPacks.
+    /* Remove randomEdge.GetPack2() from mPacks. */
+    // Update the pointers of the edges to the new position of the pack.
+    for (Edge *edge : mPacks.back().mEdges)
+    {
+        if (edge->GetPack1() == &mPacks.back())
+            edge->SetPack1(&mPacks[randomEdge.GetPack2()->GetPosition()]);
+        else // (edge->GetPack2() == &mPacks.back())
+            edge->SetPack2(&mPacks[randomEdge.GetPack2()->GetPosition()]);
+    }
+    // Swap pack to delete and the last one.
     mPacks.back().SetPosition(randomEdge.GetPack2()->GetPosition());
     mPacks[randomEdge.GetPack2()->GetPosition()] = mPacks.back();
+    // Remove.
     mPacks.pop_back();
 }
 

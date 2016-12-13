@@ -90,9 +90,10 @@ int main(int argc, char *argv[])
 
         if ((productName1.size() == 0) | (productName2.size() == 0))
             continue;
-        if ((productMap.find(productName1) == productMap.end()) | (productMap.find(productName2) == productMap.end()))
+        if ((productMap.find(productName1) == productMap.end()) |
+            (productMap.find(productName2) == productMap.end()))
         {
-            cout << "Wrong product name, all product names must appear before their connections are defined.\n";
+            cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             return 1;
         }
         Edge tmpEdge(productMap[productName1].GetPack(), productMap[productName2].GetPack());

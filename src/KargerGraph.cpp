@@ -14,7 +14,7 @@
 KargerGraph::KargerGraph()
 {
     // Initializes the random numbers generator's seed.
-    srand(time(NULL));
+    srand(0);
 }
 
 void KargerGraph::AddProduct(Product *product)
@@ -53,7 +53,7 @@ void KargerGraph::FuseStep()
     {
         if (*randomEdge.GetPack1()->mEdges[i] == randomEdge)
         {
-            randomEdge.GetPack1()->mEdges[i] = randomEdge.GetPack1()->mEdges[randomEdge.GetPack1()->mEdges.size()-1];
+            randomEdge.GetPack1()->mEdges[i] = randomEdge.GetPack1()->mEdges.back();
             randomEdge.GetPack1()->mEdges.pop_back();
         }
     }

@@ -29,8 +29,9 @@ def readfile(filename):
 			i += 1
 
 	return edgelist, nodelist, nodenamelist
-
-edges, nodelist, names = readfile('randomInput50.txt')
+if len(sys.argv) < 2:
+    exit(1)
+edges, nodelist, names = readfile(sys.argv[1])
 print("Initial node list: ", nodelist, "\nInitial edge list: ", edges)
 random.shuffle(edges)
 while(len(nodelist) > 2):

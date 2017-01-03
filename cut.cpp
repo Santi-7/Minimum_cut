@@ -124,7 +124,7 @@ int main(int argc, char * argv[])
 	/// Karger's algorithm.
 	while(nodes.size() > 2)
 	{
-		unsigned int chosenEdgeIndex = getRandom(0, edges.size() - 1);
+		unsigned int chosenEdgeIndex = getRandom(0, static_cast<unsigned int>(edges.size() - 1));
 		unsigned int receivingNode = get<0>(edges[chosenEdgeIndex]);
 		unsigned int absorbedNode = get<1>(edges[chosenEdgeIndex]);
 		unsigned int receivingNodeIndex = 0;

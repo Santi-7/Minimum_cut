@@ -1,8 +1,7 @@
 #include <iostream>
-#include <vector>
-#include <map>
 #include <fstream>
-#include <tuple>
+#include <map>
+#include <vector>
 
 using namespace std;
 
@@ -14,7 +13,7 @@ using namespace std;
  * @param str Input string from which spaces will be removed.
  * @return string without leading or treading spaces.
  */
-std::string& trimSpaces(std::string &str)
+string& trimSpaces(string &str)
 {
     // right trim.
     while ((str.length() > 0) & (((str[str.length()-1] == ' ') |
@@ -54,6 +53,7 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
 
     int numberOfProducts;
     file >> numberOfProducts;
+
     // Read all the products in the input file.
     while (numberOfProducts --> 0)
     {
@@ -83,7 +83,7 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
         if ((productName1.size() == 0) | (productName2.size() == 0))
             continue;
         if ((plist.find(productName1) == plist.end()) |
-                (plist.find(productName2) == plist.end()))
+            (plist.find(productName2) == plist.end()))
         {
             cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             throw 1;
@@ -91,71 +91,71 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
         Edge theNewEdge = make_tuple(plist[productName1], plist[productName2]);
         elist.push_back(theNewEdge);
     }
+
     return make_tuple(nlist, elist, plist);
 }
+
 void initRandom()
 {
 	srand(time(NULL));
 }
 
-int getRandom(int from, int to)
+unsigned int getRandom(unsigned int from, unsigned int to)
 {
 	return rand() % (to + 1 - from) + from;
 }
 
 int main(int argc, char * argv[])
 {
-	if (argc < 2) return 1;
+    // Check number of parameters.
+	if (argc < 2)
+    {
+        cout << "Wrong number of arguments, one needed." << endl;
+        cout << "Usage: " << argv[0] << " <products_file>" << endl;
+        return 1;
+    }
+
 	initRandom();
-	NodeList nl;
-	EdgeList el;
-	ProductList pl;
-	tie(nl, el, pl) = readFile(string(argv[1]));
+	NodeList nodes;
+	EdgeList edges;
+	ProductList products;
+	tie(nodes, edges, products) = readFile(string(argv[1]));
 			
-	/// Karger
-	
-	while(nl.size() > 2)
+	/// Karger's algorithm.
+	while(nodes.size() > 2)
 	{
-		unsigned int chosenEdgeIndex = getRandom(0, el.size() - 1);
-		unsigned int receivingNode = get<0>(el[chosenEdgeIndex]);
-		unsigned int absorbedNode = get<1>(el[chosenEdgeIndex]);
+		unsigned int chosenEdgeIndex = getRandom(0, edges.size() - 1);
+		unsigned int receivingNode = get<0>(edges[chosenEdgeIndex]);
+		unsigned int absorbedNode = get<1>(edges[chosenEdgeIndex]);
 		unsigned int receivingNodeIndex = 0;
 		unsigned int absorbedNodeIndex = 0;
 		unsigned int endEarly = 0;
-		for (unsigned int i = 0; (i < nl.size()) & (endEarly < 2); ++i)
+		for (unsigned int i = 0; (i < nodes.size()) & (endEarly < 2); ++i)
 		{
-			if (nl[i][0] == receivingNode){ receivingNodeIndex = i; endEarly++;}
-			else if (nl[i][0] == absorbedNode){ absorbedNodeIndex = i; endEarly++;}
+			if (nodes[i][0] == receivingNode) { receivingNodeIndex = i; endEarly++; }
+			else if (nodes[i][0] == absorbedNode) { absorbedNodeIndex = i; endEarly++; }
 		}
-		nl[receivingNodeIndex].insert(nl[receivingNodeIndex].end(), nl[absorbedNodeIndex].begin(), nl[absorbedNodeIndex].end());
-		nl.erase(nl.begin() + absorbedNodeIndex);
-		el.erase(el.begin() + chosenEdgeIndex);
+		nodes[receivingNodeIndex].insert(nodes[receivingNodeIndex].end(), nodes[absorbedNodeIndex].begin(), nodes[absorbedNodeIndex].end());
+		nodes.erase(nodes.begin() + absorbedNodeIndex);
+		edges.erase(edges.begin() + chosenEdgeIndex);
 		
-		for (auto it = el.begin(); it < el.end(); ++it)
+		for (auto it = edges.begin(); it < edges.end(); ++it)
 		{
 			if (get<0>(*it) == absorbedNode) *it = make_tuple(receivingNode, get<1>(*it));
 			else if (get<1>(*it) == absorbedNode) *it = make_tuple(get<0>(*it), receivingNode);
 			if (get<0>(*it) == get<1>(*it))
             {
-                it = el.erase(it);
+                it = edges.erase(it);
                 --it;
             }
 		}
-		
 	}
 	
-	for (unsigned int i = 0; i < nl.size(); ++i)
+	for (unsigned int i = 0; i < nodes.size(); ++i)
 	{
-		for (unsigned int j = 0; j < nl[i].size(); ++j)
-		{
-			cout << nl[i][j] << ", ";
-		}
+		for (unsigned int j = 0; j < nodes[i].size(); ++j)
+			cout << nodes[i][j] << ", ";
 		cout << endl;
-	}	
-	
-	cout << "The cut is: " << el.size() << '\n';
-	
-	
-	
-	
+	}
+	cout << "The cut is: " << edges.size() << '\n';
 }

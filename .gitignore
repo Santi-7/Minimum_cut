@@ -36,3 +36,6 @@ build/
 
 # Input files' examples
 examples/
+
+# Ignore IDE build folder
+cmake-build-debug/

@@ -44,8 +44,7 @@ string& trimSpaces(string &str)
 
 typedef vector<unsigned int> Node;
 typedef vector<Node> NodeList;
-typedef tuple<unsigned int, unsigned int> Edge;
-typedef vector<Edge> EdgeList;
+typedef vector<vector<unsigned int>> EdgeList;
 typedef map<string, unsigned int> ProductList;
 
 /**
@@ -68,14 +67,14 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
         throw 1;
     }
 
-	NodeList nlist;
-    EdgeList elist;
-    ProductList plist;
-    
-    unsigned int uniqueIndex = 1;
+    unsigned int uniqueIndex = 0;
 
     int numberOfProducts;
     file >> numberOfProducts;
+
+    NodeList nlist;
+    EdgeList elist((unsigned int) numberOfProducts, vector<unsigned int>((unsigned int)numberOfProducts, 0));
+    ProductList plist;
 
     // Read all the products in the input file.
     while (numberOfProducts --> 0)
@@ -111,8 +110,9 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
             cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             throw 1;
         }
-        Edge theNewEdge = make_tuple(plist[productName1], plist[productName2]);
-        elist.push_back(theNewEdge);
+        unsigned int product1 = plist[productName1];
+        unsigned int product2 = plist[productName2];
+        elist[max(product1, product2)][min(product1, product2)] = 1;
     }
 
     return make_tuple(nlist, elist, plist);
@@ -136,6 +136,21 @@ unsigned int getRandom(unsigned int from, unsigned int to)
 }
 
 /**
+ * Prints an EdgeList
+ */
+void printEdgeList(EdgeList& aMatrix)
+{
+    cout << '\n';
+    for (unsigned int i = 0; i < aMatrix.size(); ++i)
+    {
+        for (unsigned int j = 0; j < aMatrix.size(); ++j)
+        {
+            cout << aMatrix[i][j] << ", ";
+        }
+        cout << '\n';
+    }
+}
+/**
  * An implementation of Karger's algorithm.
  * @param nodes Vertices of the graph for which a cut will be returned
  * @param edges Edges of the graph for which a cut will be returned
@@ -147,33 +162,41 @@ unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
 {
     while(nodes.size() > t)
     {
-        unsigned int chosenEdgeIndex = getRandom(0, static_cast<unsigned int>(edges.size() - 1));
-        unsigned int receivingNode = get<0>(edges[chosenEdgeIndex]);
-        unsigned int absorbedNode = get<1>(edges[chosenEdgeIndex]);
-        unsigned int receivingNodeIndex = 0;
-        unsigned int absorbedNodeIndex = 0;
-        unsigned int endEarly = 0;
-        for (unsigned int i = 0; (i < nodes.size()) & (endEarly < 2); ++i)
-        {
-            if (nodes[i][0] == receivingNode) { receivingNodeIndex = i; endEarly++; }
-            else if (nodes[i][0] == absorbedNode) { absorbedNodeIndex = i; endEarly++; }
-        }
+        unsigned int receivingNodeIndex, receivingNode, absorbedNodeIndex, absorbedNode;
+        do{
+            receivingNodeIndex = getRandom(0, static_cast<unsigned int>(nodes.size()-1));
+            receivingNode = nodes[receivingNodeIndex][0];
+            absorbedNodeIndex = getRandom(0, static_cast<unsigned int>(nodes.size()-1));
+            absorbedNode = nodes[absorbedNodeIndex][0];
+            if (receivingNode > absorbedNode)
+            {
+                receivingNodeIndex += absorbedNodeIndex;
+                absorbedNodeIndex = receivingNodeIndex - absorbedNodeIndex;
+                receivingNodeIndex -= absorbedNodeIndex;
+                receivingNode += absorbedNode;
+                absorbedNode = receivingNode - absorbedNode;
+                receivingNode -= absorbedNode;
+            }
+        }while (receivingNode == absorbedNode or edges[absorbedNode][receivingNode] == 0);
+
         nodes[receivingNodeIndex].insert(nodes[receivingNodeIndex].end(), nodes[absorbedNodeIndex].begin(), nodes[absorbedNodeIndex].end());
         nodes.erase(nodes.begin() + absorbedNodeIndex);
-        edges.erase(edges.begin() + chosenEdgeIndex);
 
-        for (auto it = edges.begin(); it < edges.end(); ++it)
+        unsigned int i = 0;
+        for (; i < absorbedNode; ++i)
         {
-            if (get<0>(*it) == absorbedNode) *it = make_tuple(receivingNode, get<1>(*it));
-            else if (get<1>(*it) == absorbedNode) *it = make_tuple(get<0>(*it), receivingNode);
-            if (get<0>(*it) == get<1>(*it))
-            {
-                it = edges.erase(it);
-                --it;
-            }
+            edges[max(receivingNode, i)][min(receivingNode, i)] += edges[absorbedNode][i];
+            edges[absorbedNode][i] = 0;
+        }
+        ++i;
+        for (; i < edges.size(); ++i)
+        {
+            edges[max(receivingNode, i)][min(receivingNode, i)] += edges[i][absorbedNode];
+            edges[i][absorbedNode] = 0;
         }
     }
-    return static_cast<unsigned int>(edges.size());
+
+    return edges[max(nodes[0][0], nodes[1][0])][min(nodes[0][0], nodes[1][0])];
 }
 
 /**

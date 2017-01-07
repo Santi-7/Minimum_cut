@@ -154,7 +154,7 @@ unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
         unsigned int receivingNodeIndex = 0;
         unsigned int absorbedNodeIndex = 0;
         unsigned int endEarly = 0;
-        // Fuse the two nodes of the edges into one. For efficieny, fuse one (absorbedNode) into
+        // Fuse the two nodes of the edges into one. For efficiency, fuse one (absorbedNode) into
         // another (receivingNode).
         for (unsigned int i = 0; (i < nodes.size()) & (endEarly < 2); ++i)
         {

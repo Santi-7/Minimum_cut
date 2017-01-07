@@ -87,64 +87,57 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
         kargerGraph.AddProduct(&productMap[productName]);
     }
 
-    if (readWeightedGraph)
+    string weight;
+    // Read all the edges and weights in the input file.
+    while (file.good())
     {
-        string weight;
-        // Read all the edges and weights in the input file.
-        while (file.good())
+        // Read.
+        string productName1, productName2;
+        getline(file, productName1, '|');
+        if (readWeightedGraph)
         {
-            string productName1, productName2;
-            getline(file, productName1, '|');
             getline(file, productName2, '|');
-            productName1 = trimSpaces(productName1);
-            productName2 = trimSpaces(productName2);
             getline(file, weight);
-            if ((productName1.size() == 0) | (productName2.size() == 0))
-                continue;
-            if ((productMap.find(productName1) == productMap.end()) |
-                    (productMap.find(productName2) == productMap.end()))
-            {
-                cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
-                throw 1;
-            }
+        }
+        else
+        {
+            getline(file, productName2);
+        }
+        // Get nodes of the edge.
+        productName1 = trimSpaces(productName1);
+        productName2 = trimSpaces(productName2);
+        if ((productName1.size() == 0) | (productName2.size() == 0))
+            continue;
+        if ((productMap.find(productName1) == productMap.end()) |
+                (productMap.find(productName2) == productMap.end()))
+        {
+            cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
+            throw 1;
+        }
+        // Insert edge.
+        Edge theNewEdge;
+        if (readWeightedGraph)
+        {
             try
             {
-                // The pointers to the products are unique, so they can be the packs' id.
-                Edge theNewEdge(&productMap[productName1],
-                        &productMap[productName2],
-                        static_cast<unsigned int>(stoi(weight))); // TODO: Not always a weight.
-                kargerGraph.AddEdge(theNewEdge);
-            }catch(invalid_argument)
+
+            theNewEdge = Edge(&productMap[productName1],
+                              &productMap[productName2],
+                              static_cast<unsigned int>(stoi(weight)));
+
+            } catch(invalid_argument)
             {
                 cerr << "Wrong edge weight, expected an integer\n";
                 throw 1;
             }
+
         }
-    }
-    else
-    {
-        // Read all the edges in the input file.
-        while (file.good())
+        else
         {
-            string productName1, productName2;
-            getline(file, productName1, '|');
-            getline(file, productName2);
-            productName1 = trimSpaces(productName1);
-            productName2 = trimSpaces(productName2);
-            if ((productName1.size() == 0) | (productName2.size() == 0))
-                continue;
-            if ((productMap.find(productName1) == productMap.end()) |
-                    (productMap.find(productName2) == productMap.end()))
-            {
-                cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
-                throw 1;
-            }
-            // The pointers to the products are unique, so they can be the packs' id.
-            Edge theNewEdge(&productMap[productName1],
-                    &productMap[productName2],
-                    1);
-            kargerGraph.AddEdge(theNewEdge);
+            theNewEdge = Edge(&productMap[productName1],
+                              &productMap[productName2]);
         }
+        kargerGraph.AddEdge(theNewEdge);
     }
 
     return make_tuple(productMap, kargerGraph);

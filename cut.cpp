@@ -109,7 +109,7 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
         if ((productName1.size() == 0) | (productName2.size() == 0))
             continue;
         if ((productMap.find(productName1) == productMap.end()) |
-                (productMap.find(productName2) == productMap.end()))
+            (productMap.find(productName2) == productMap.end()))
         {
             cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             throw 1;

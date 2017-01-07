@@ -52,8 +52,10 @@ void KargerGraph::FuseStep()
     for (auto it = mEdges.begin(); it < mEdges.end(); ++it)
     {
         // Remove self-loop edges.
-        if (randomEdge == *it)
+        if (randomEdge == *it) {
             it = mEdges.erase(it);
+            --it;
+        }
         // Update edges of the deleted node to the new fused node.
         else if (it->GetPack1() == randomEdge.GetPack2())
             it->SetPack1(randomEdge.GetPack1());

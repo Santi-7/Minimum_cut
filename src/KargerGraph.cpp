@@ -19,6 +19,10 @@ KargerGraph::KargerGraph(const bool isWeighted)
     srand(time(NULL));
 }
 
+KargerGraph::KargerGraph(const KargerGraph &copy)
+: mPacks(copy.mPacks), mEdges(copy.mEdges), mIsWeighted(copy.mIsWeighted)
+{}
+
 void KargerGraph::AddProduct(Product *product)
 {
     // Add the pack to the map of packs.
@@ -86,7 +90,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
     else
     {
         unsigned int t = 1 + static_cast<unsigned int>(std::ceil(mPacks.size() / std::sqrt(2)));
-        KargerGraph copy; // TODO: Implement the copy of a graph.
+        KargerGraph copy(*this);
         KargerAlgorithm(t);
         copy.KargerAlgorithm(t);
         unsigned int cut1 = KargerSteinAlgorithm();
@@ -97,7 +101,10 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
         }
         else
         {
-            //this = copy; // TODO: Implement this.
+            // Return state to the copy graph.
+            mPacks = copy.mPacks;
+            mEdges = copy.mEdges;
+            mIsWeighted = copy.mIsWeighted;
             return cut2;
         }
     }

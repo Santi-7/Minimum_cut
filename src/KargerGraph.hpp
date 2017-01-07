@@ -32,6 +32,14 @@ public:
     KargerGraph(const bool isWeighted);
 
     /**
+     * Copy constructor.
+     *
+     * @param copy A Karger Graph which is being copied into the new one.
+     * @return A Karger Graph copy of [copy].
+     */
+    KargerGraph(const KargerGraph &copy);
+
+    /**
      * Adds the Amazon's product [product] to the Karger's Graph as a vertice.
      *
      * @param product to be added to the Karger's Graph as a vertice.

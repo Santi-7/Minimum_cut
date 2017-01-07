@@ -11,8 +11,13 @@
 Product::Product()
 : mName("") {}
 
-Product::Product(const std::string &name)
-: mName(name) {}
+Product::Product(const std::string &name, const unsigned int id)
+: mName(name), mId(id) {}
+
+unsigned int Product::GetId() const
+{
+    return mId;
+}
 
 std::ostream& operator<<(std::ostream &out, const Product &product)
 {

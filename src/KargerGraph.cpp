@@ -22,7 +22,7 @@ KargerGraph::KargerGraph(const bool isWeighted)
 void KargerGraph::AddProduct(Product *product)
 {
     // Add the pack to the map of packs.
-    mPacks.emplace(product, ProductsPack(product));
+    mPacks.emplace(product->GetId(), ProductsPack(product));
 }
 
 void KargerGraph::AddEdge(Edge &edge)
@@ -103,7 +103,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
     }
 }
 
-std::map<Product*, ProductsPack> KargerGraph::GetPacks() const
+std::map<unsigned int, ProductsPack> KargerGraph::GetPacks() const
 {
     return mPacks;
 }

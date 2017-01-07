@@ -34,33 +34,33 @@ public:
      * @param weight Times that the two packs have been bought together.
      * @return an edge between the two packs of Amazon's products [p1] and [p2].
      */
-    Edge(Product *p1, Product *p2, const unsigned int weight = 1);
+    Edge(const unsigned int p1, const unsigned int p2, const unsigned int weight = 1);
 
     /**
      * Returns the first pack.
      * @return the first pack.
      */
-    Product* GetPack1() const;
+    unsigned int GetPack1() const;
 
     /**
      * Returns the second pack.
      * @return the second pack.
      */
-    Product* GetPack2() const;
+    unsigned int GetPack2() const;
 
     /**
      * Sets the first pack to [pack].
      *
      * @param pack to be set as the first pack.
      */
-    void SetPack1(Product *pack);
+    void SetPack1(const unsigned int pack);
 
     /**
      * Sets the second pack to [pack].
      *
      * @param pack to be set as the second pack.
      */
-    void SetPack2(Product *pack);
+    void SetPack2(const unsigned int pack);
 
     /**
      * Overloads == operator to return true if both edges, [edge1] and [edge2],
@@ -75,9 +75,8 @@ public:
 
 private:
 
-    /** Packs of Amazon's products which products, at least one, have been bought together. This
-     * pointers value represents the Ids of the packs (see mId if a ProductsPack). */
-    Product *mP1, *mP2;
+    /** Packs of Amazon's products which products, at least one, have been bought together. */
+    unsigned int mP1, mP2;
 
     /** Weight of the edge: Times that the two packs of Amazon's products have been bought together. */
     // Although there is a version of a Karger's Graph with no weights, an edge has always a weight

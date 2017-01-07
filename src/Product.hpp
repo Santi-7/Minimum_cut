@@ -32,9 +32,15 @@ public:
      * Creates an Amazon's product with name [name].
      *
      * @param name of the Amazon's product created.
+     * @param id of the Amazon's product created.
      * @return an Amazon's product with name [name].
      */
-    Product(const std::string &name);
+    Product(const std::string &name, const unsigned int id);
+
+    /**
+     * @return the product's id.
+     */
+    unsigned int GetId() const;
 
     /**
      * Pretty print.
@@ -49,6 +55,9 @@ private:
 
     /** Name of the Amazon's product. */
     std::string mName;
+
+    /** Id of the Amazon's product. */
+    unsigned int mId;
 };
 
 #endif // MINIMUM_CUT_PRODUCT_HPP

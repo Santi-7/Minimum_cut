@@ -40,20 +40,15 @@ public:
      *
      * @param products to be added to this pack.
      */
-    void AddProducts(const std::vector<Product*> &products);
-
-    /**
-     * Prints the information in this ProductsPack
-     */
-    void Print() const;
+    void AddProducts(const std::vector<unsigned int> &products);
 
 public:
 
     /** Amazon's products that belong to this pack. */
-    std::vector<Product*> mProducts;
+    std::vector<unsigned int> mProducts;
 
     /** Id of the pack. */
-    Product* mId;
+    unsigned int mId;
 };
 
 #endif // MINIMUM_CUT_PRODUCTSPACK_HPP

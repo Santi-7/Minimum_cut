@@ -68,10 +68,11 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
     // Karger's Graph.
 	KargerGraph kargerGraph(readWeightedGraph);
 
-    int numberOfProducts;
+    unsigned int numberOfProducts;
     file >> numberOfProducts;
 
     // Read all the products in the input file.
+
     while (numberOfProducts --> 0)
     {
         string productName;
@@ -82,7 +83,7 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
         {
             numberOfProducts++; continue;
         }
-        bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName)));
+        bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName, numberOfProducts)));
         if (!emplacedCorrectly) { cerr << "Error inserting product in the map.\n"; throw 1; }
         kargerGraph.AddProduct(&productMap[productName]);
     }
@@ -121,8 +122,8 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
             try
             {
 
-            theNewEdge = Edge(&productMap[productName1],
-                              &productMap[productName2],
+            theNewEdge = Edge(productMap[productName1].GetId(),
+                              productMap[productName2].GetId(),
                               static_cast<unsigned int>(stoi(weight)));
 
             } catch(invalid_argument)
@@ -134,8 +135,8 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
         }
         else
         {
-            theNewEdge = Edge(&productMap[productName1],
-                              &productMap[productName2]);
+            theNewEdge = Edge(productMap[productName1].GetId(),
+                              productMap[productName2].GetId());
         }
         kargerGraph.AddEdge(theNewEdge);
     }
@@ -195,5 +196,19 @@ int main(int argc, char * argv[])
 
     // Show results.
     cout << "The min cut is " << minimumCut << ".\n\n";
-    for (pair<Product*, ProductsPack> pack : kargerGraph.GetPacks()) pack.second.Print();
+    for (pair<unsigned int, ProductsPack> pack : kargerGraph.GetPacks())
+    {
+        cout << "Pack: ";
+        for (unsigned int product : pack.second.mProducts)
+        {
+            for (auto it = productMap.begin(); it != productMap.end(); ++it)
+            {
+                if (it->second.GetId() == product) {
+                    cout << it->first << ", ";
+                    break;
+                }
+            }
+        }
+        cout << endl;
+    }
 }

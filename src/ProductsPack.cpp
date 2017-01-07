@@ -13,20 +13,12 @@
 ProductsPack::ProductsPack() {}
 
 ProductsPack::ProductsPack(Product *initialProduct)
-: mId(initialProduct)
+: mId(initialProduct->GetId())
 {
-    mProducts.push_back(initialProduct);
+    mProducts.push_back(initialProduct->GetId());
 }
 
-void ProductsPack::AddProducts(const std::vector<Product*> &products)
+void ProductsPack::AddProducts(const std::vector<unsigned int> &products)
 {
     mProducts.insert( mProducts.end(), products.begin(), products.end() );
-}
-
-void ProductsPack::Print() const
-{
-    std::cout << "Pack: " << "\n";
-    for (Product *product : mProducts)
-        std::cout << *product << ", ";
-    std::cout << "\n";
 }

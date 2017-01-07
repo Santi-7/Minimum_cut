@@ -67,7 +67,7 @@ public:
     /**
      * @return The ProductPacks of this Graph.
      */
-    std::map<Product*, ProductsPack> GetPacks() const;
+    std::map<unsigned int, ProductsPack> GetPacks() const;
 
     /**
      * @return The Edges of this Graph.
@@ -77,7 +77,7 @@ public:
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */
-    std::map<Product*, ProductsPack> mPacks;
+    std::map<unsigned int, ProductsPack> mPacks;
 
     /** Edges between the packs (edges of the graph). */
     std::vector<Edge> mEdges;

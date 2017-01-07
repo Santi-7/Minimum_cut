@@ -202,7 +202,7 @@ unsigned int Karger_Stein(NodeList& nodes, EdgeList& edges)
     }
     else
     {
-        unsigned int t = 1 + static_cast<unsigned int>(round(nodes.size() / sqrt(2)));
+        unsigned int t = 1 + static_cast<unsigned int>(ceil(nodes.size() / sqrt(2)));
         NodeList nodes2(nodes);
         EdgeList edges2(edges);
         Karger(nodes, edges, t);

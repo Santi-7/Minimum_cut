@@ -166,6 +166,6 @@ int main(int argc, char * argv[])
     else minimumCut = kargerGraph.KargerSteinAlgorithm();
 
     // Show results.
-    cout << "The min cut is " << kargerGraph.GetEdges().size() << ".\n\n";
+    cout << "The min cut is " << minimumCut << ".\n\n";
     for (pair<unsigned int, ProductsPack> pack : kargerGraph.GetPacks()) pack.second.Print();
 }

@@ -11,6 +11,7 @@
 
 #include "ProductsPack.hpp"
 
+class Product;
 class ProductsPack;
 
 /**

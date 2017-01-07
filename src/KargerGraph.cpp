@@ -52,7 +52,7 @@ void KargerGraph::FuseStep()
     for (auto it = mEdges.begin(); it < mEdges.end(); ++it)
     {
         // TODO: Check this comparison. --it needs to be done? erase doesn't do it?
-        if (randomEdge == it)
+        if (randomEdge == *it)
         {
             it = mEdges.erase(it);
             --it;
@@ -82,6 +82,8 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
     {
         unsigned int t = 1 + static_cast<unsigned int>(std::ceil(mPacks.size() / std::sqrt(2)));
         KargerGraph copy; // TODO: Implement the copy of a graph.
+        KargerAlgorithm(t);
+        copy.KargerAlgorithm(t);
         unsigned int cut1 = KargerSteinAlgorithm();
         unsigned int cut2 = copy.KargerSteinAlgorithm();
         if (cut1 < cut2)

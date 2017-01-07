@@ -7,11 +7,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -O0 
 add_subdirectory(src)
 
 add_executable(Minimum_cut_run
-        main.cpp
+        cut.cpp
         ${HEADER_FILES}
         ${SOURCE_FILES})
-
-add_executable(fcut cut.cpp)
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/src)

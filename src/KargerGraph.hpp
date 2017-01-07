@@ -65,6 +65,7 @@ private:
     /** Edges between the packs (edges of the graph). */
     std::vector<Edge> mEdges;
 
+    /** True if the graph is weighted, false otherwise. */
     bool mIsWeighted;
 };
 

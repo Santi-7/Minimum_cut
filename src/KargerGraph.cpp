@@ -48,11 +48,18 @@ void KargerGraph::FuseStep()
 
     // Fuses the products of both packs into the first one.
     mPacks[randomEdge.GetPack1()].AddProducts(mPacks[randomEdge.GetPack2()].mProducts);
-    // Remove self-loop edges.
+
     for (auto it = mEdges.begin(); it < mEdges.end(); ++it)
     {
+        // Remove self-loop edges.
         if (randomEdge == *it) it = mEdges.erase(it);
+        // Update edges of the deleted node to the new fused node.
+        else if (it->GetPack1() == randomEdge.GetPack2())
+            it->SetPack1(randomEdge.GetPack1());
+        else if (it->GetPack2() == randomEdge.GetPack2())
+            it->SetPack2(randomEdge.GetPack1());
     }
+
     /* Remove randomEdge.GetPack2() from mPacks. */
     mPacks.erase(randomEdge.GetPack2());
 }

@@ -197,8 +197,8 @@ int main(int argc, char * argv[])
 
     // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;
-    if (useKargerStein) minimumCut = kargerGraph.KargerAlgorithm();
-    else minimumCut = kargerGraph.KargerSteinAlgorithm();
+    if (useKargerStein) minimumCut = kargerGraph.KargerSteinAlgorithm();
+    else minimumCut = kargerGraph.KargerAlgorithm();
 
     // Show results.
     cout << "The min cut is " << minimumCut << ".\n\n";

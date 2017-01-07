@@ -8,11 +8,12 @@
  **         Santiago Gil Begué, NIA: 683482
  ** -------------------------------------------------------------------------*/
 
+#include <KargerGraph.hpp>
+
 #include <iostream>
 #include <fstream>
-#include <map>
-#include <vector>
 #include <random>
+#include <unordered_map>
 
 #define RANDOM MERSENNE
 
@@ -42,24 +43,17 @@ string& trimSpaces(string &str)
     return str;
 }
 
-typedef vector<unsigned int> Node;  // A node of the Karger's Graph is a collection of products (their IDs).
-typedef vector<Node> NodeList;  // TODO: Change it to map. ID - Node
-typedef tuple<unsigned int, unsigned int, unsigned int> Edge;  // Node1, Node2, weight.
-typedef vector<Edge> EdgeList;  // Vector of edges.
-typedef map<string, unsigned int> ProductList;  // Map of products where key is the product's name.
-                                                // A product has also a unique ID.
-
 /**
  * Reads a graph from a product file. The file format is:
  * <Number of products>
  * <Product name>+ // One each line. Vertex in the graph.
  * <Product name>|<Product name> // One each line. Edge in the graph.
  *
- * @param filename path to the file from which the graph will be loaded.
- * @return List of the vertices, edges and a map of product name - id for the
- *  file read.
+ * @param filename Path to the file from which the graph will be loaded.
+ * @param readWeightedGraph True if the graph to read is weighted.
+ * @return Map of the products read and the constructed Karger's Graph.
  */
-tuple<NodeList, EdgeList, ProductList> readFile(const string& filename, bool readWeightedGraph)
+tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filename, const bool readWeightedGraph)
 {
 	// Open the input file.
     ifstream file(filename);
@@ -69,11 +63,10 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename, bool rea
         throw 1;
     }
 
-	NodeList nlist;
-    EdgeList elist;
-    ProductList plist;
-    
-    unsigned int uniqueIndex = 1;
+    // Map that manages the Amazon's products.
+    unordered_map<string, Product> productMap;
+    // Karger's Graph.
+	KargerGraph kargerGraph(readWeightedGraph);
 
     int numberOfProducts;
     file >> numberOfProducts;
@@ -89,11 +82,11 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename, bool rea
         {
             numberOfProducts++; continue;
         }
-        Node theNewNode = {uniqueIndex};
-        nlist.push_back(theNewNode);
-        plist.emplace(productName, uniqueIndex);
-        uniqueIndex++;
+        bool emplacedCorrectly = get<1>(productMap.emplace(productName, Product(productName)));
+        if (!emplacedCorrectly) { cerr << "Error inserting product in the map.\n"; throw 1; }
+        kargerGraph.AddProduct(&productMap[productName]);
     }
+
     string weight;
     // Read all the edges in the input file.
     while (file.good())
@@ -104,20 +97,22 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename, bool rea
         productName1 = trimSpaces(productName1);
         productName2 = trimSpaces(productName2);
         getline(file, weight);
-        // TODO: Get weight as a number with stoi()
         if ((productName1.size() == 0) | (productName2.size() == 0))
             continue;
-        if ((plist.find(productName1) == plist.end()) |
-            (plist.find(productName2) == plist.end()))
+        if ((productMap.find(productName1) == productMap.end()) |
+            (productMap.find(productName2) == productMap.end()))
         {
             cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             throw 1;
         }
-        Edge theNewEdge = make_tuple(plist[productName1], plist[productName2], 1);
-        elist.push_back(theNewEdge);
+        // The pointers to the products are unique, so they can be the packs' id.
+        Edge theNewEdge(static_cast<unsigned int>(&productMap[productName1]),
+                        static_cast<unsigned int>(&productMap[productName2]),
+                        atoi(weight)); // TODO: Not always a weight.
+        kargerGraph.AddEdge(theNewEdge);
     }
 
-    return make_tuple(nlist, elist, plist);
+    return make_tuple(productMap, kargerGraph);
 }
 
 /**
@@ -246,29 +241,21 @@ int main(int argc, char * argv[])
 	    if (tmpArg == "-ks") useKargerStein = true;
 	    else if (tmpArg == "-w") weightedGraph = true;
     }
+
     // Construct the data structure.
-	NodeList nodes;
-	EdgeList edges;
-	ProductList products;
-	tie(nodes, edges, products) = readFile(string(argv[1]), weightedGraph);
+    unordered_map<string, Product> productMap;
+    KargerGraph kargerGraph;
+	tie(productMap, kargerGraph) = readFile(string(argv[1]), weightedGraph);
 
     // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;
-    if (useKargerStein) minimumCut = Karger_Stein(nodes, edges);
-    else minimumCut = Karger(nodes, edges);
+    //if (useKargerStein) minimumCut = Karger_Stein(nodes, edges);
+    //else minimumCut = Karger(nodes, edges);
 
-    // Print results, the minimum cut and the two divisions.
-	for (unsigned int i = 0; i < nodes.size(); ++i)
-	{
-		for (unsigned int j = 0; j < nodes[i].size(); ++j)
-		{
-			for (auto it = products.begin(); it != products.end(); ++it)
-			{
-				if (it->second == nodes[i][j])
-					cout << it->first << ", ";
-			}		
-		}
-		cout << endl;
-	}
-	cout << "The cut is: " << minimumCut << '\n';
+    unsigned long vertices = productMap.size();
+    while (vertices --> 2) kargerGraph.FuseStep();
+
+    // Show results.
+    cout << "The min cut is " << kargerGraph.GetEdges().size() << ".\n\n";
+    for (pair<unsigned int, ProductsPack> pack : kargerGraph.GetPacks()) pack.second.Print();
 }

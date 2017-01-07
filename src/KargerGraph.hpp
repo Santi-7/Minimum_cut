@@ -20,6 +20,9 @@ class KargerGraph
 
 public:
 
+    /** Default constructor. */
+    KargerGraph() {}
+
     /**
      * Creates a Karger's Graph.
      *

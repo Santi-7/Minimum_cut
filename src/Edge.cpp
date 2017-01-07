@@ -8,37 +8,27 @@
 
 #include "Edge.hpp"
 
-Edge::Edge(ProductsPack *p1, ProductsPack *p2)
-: mP1(p1), mP2(p2) {}
+Edge::Edge(const unsigned int p1, const unsigned int p2, const unsigned int weight)
+: mP1(p1), mP2(p2), mWeight(weight) {}
 
-ProductsPack* Edge::GetPack1() const
+unsigned int Edge::GetPack1() const
 {
     return mP1;
 }
 
-ProductsPack* Edge::GetPack2() const
+unsigned int Edge::GetPack2() const
 {
     return mP2;
 }
 
-void Edge::SetPack1(ProductsPack *pack)
+void Edge::SetPack1(const unsigned int pack)
 {
     mP1 = pack;
 }
 
-void Edge::SetPack2(ProductsPack *pack)
+void Edge::SetPack2(const unsigned int pack)
 {
     mP2 = pack;
-}
-
-unsigned long Edge::GetPosition() const
-{
-    return mPosition;
-}
-
-void Edge::SetPosition(const unsigned long position)
-{
-    mPosition = position;
 }
 
 bool operator==(const Edge &edge1, const Edge &edge2)

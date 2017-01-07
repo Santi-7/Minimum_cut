@@ -13,7 +13,7 @@
 #include "Product.hpp"
 #include "ProductsPack.hpp"
 
-#include <deque>
+#include <map>
 
 class KargerGraph
 {
@@ -23,9 +23,10 @@ public:
     /**
      * Creates a Karger's Graph.
      *
+     * @param isWeighted True if the graph is weighted, false otherwise.
      * @return a Karger's Graph.
      */
-    KargerGraph();
+    KargerGraph(const bool isWeighted);
 
     /**
      * Adds the Amazon's product [product] to the Karger's Graph as a vertice.
@@ -49,20 +50,22 @@ public:
     /**
      * @return The ProductPacks of this Graph.
      */
-    std::deque<ProductsPack> GetPacks() const;
+    std::map<unsigned int, ProductsPack> GetPacks() const;
 
     /**
      * @return The Edges of this Graph.
      */
-    std::deque<Edge> GetEdges() const;
+    std::vector<Edge> GetEdges() const;
 
 private:
 
     /** Packs of Amazon's products (vertices of the graph). */
-    std::deque<ProductsPack> mPacks;
+    std::map<unsigned int, ProductsPack> mPacks;
 
     /** Edges between the packs (edges of the graph). */
-    std::deque<Edge> mEdges;
+    std::vector<Edge> mEdges;
+
+    bool mIsWeighted;
 };
 
 #endif // MINIMUM_CUT_KARGERGRAPH_HPP

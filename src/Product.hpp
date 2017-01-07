@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  ** Product.hpp
- ** Contains all the information needed to describe a product.
+ ** Contains all the information needed to describe an Amazon's product.
  **
  ** Author: Miguel Jorge Galindo Ramos, NIA: 679954
  **         Santiago Gil Begué, NIA: 683482
@@ -37,20 +37,6 @@ public:
     Product(const std::string &name);
 
     /**
-     * Returns the ProductsPack this product belongs to initially.
-     *
-     * @return the ProductsPack this product belongs to initially.
-     */
-    ProductsPack* GetPack() const;
-
-    /**
-     * Sets the initial ProductsPack of this product to [pack].
-     *
-     * @param pack this product belongs to initially.
-     */
-    void SetPack(ProductsPack *pack);
-
-    /**
      * Pretty print.
      *
      * @param out Stream that will receive the Product [product] as a string.
@@ -63,10 +49,6 @@ private:
 
     /** Name of the Amazon's product. */
     std::string mName;
-
-    /** ProductsPack this product belongs to initially. This attribute is
-     * only used in the construction of the initial Karger's Graph. */
-    ProductsPack *mPack;
 };
 
 #endif // MINIMUM_CUT_PRODUCT_HPP

@@ -42,11 +42,12 @@ string& trimSpaces(string &str)
     return str;
 }
 
-typedef vector<unsigned int> Node;
-typedef vector<Node> NodeList;
-typedef tuple<unsigned int, unsigned int> Edge;
-typedef vector<Edge> EdgeList;
-typedef map<string, unsigned int> ProductList;
+typedef vector<unsigned int> Node;  // A node of the Karger's Graph is a collection of products (their IDs).
+typedef vector<Node> NodeList;  // TODO: Change it to map. ID - Node
+typedef tuple<unsigned int, unsigned int, unsigned int> Edge;  // Node1, Node2, weight.
+typedef vector<Edge> EdgeList;  // Vector of edges.
+typedef map<string, unsigned int> ProductList;  // Map of products where key is the product's name.
+                                                // A product has also a unique ID.
 
 /**
  * Reads a graph from a product file. The file format is:
@@ -111,7 +112,7 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
             cerr << "Wrong product name, all product names must appear before their connections are defined.\n";
             throw 1;
         }
-        Edge theNewEdge = make_tuple(plist[productName1], plist[productName2]);
+        Edge theNewEdge = make_tuple(plist[productName1], plist[productName2], 1);
         elist.push_back(theNewEdge);
     }
 
@@ -231,12 +232,15 @@ int main(int argc, char * argv[])
 	if (argc < 2)
     {
         cout << "Wrong number of arguments, at least one needed." << endl;
-        cout << "Usage: " << argv[0] << " <products_file> [-ks]" << endl;
+        cout << "Usage: " << argv[0] << " <products_file> [-ks] [-w]" << endl;
         cout << "If the option -ks is used then the algorithm run will be Karger-Stein's." << endl;
+        cout << "If the option -w is used then ..." << endl; // TODO: Add helpful text.
         return 1;
     }
     bool useKargerStein = false;
-    if (argc > 2 and string(argv[2]) == "-ks") useKargerStein = true;
+    if (argc > 2 and string(argv[2]) == "-ks") useKargerStein = true; // TODO: Loop params.
+    bool weightedGraph = false;
+    // TODO: Read param.
 
     // Construct the data structure.
 	NodeList nodes;

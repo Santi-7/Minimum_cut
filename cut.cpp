@@ -59,7 +59,7 @@ typedef map<string, unsigned int> ProductList;  // Map of products where key is 
  * @return List of the vertices, edges and a map of product name - id for the
  *  file read.
  */
-tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
+tuple<NodeList, EdgeList, ProductList> readFile(const string& filename, bool readWeightedGraph)
 {
 	// Open the input file.
     ifstream file(filename);
@@ -94,16 +94,17 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
         plist.emplace(productName, uniqueIndex);
         uniqueIndex++;
     }
-
+    string weight;
     // Read all the edges in the input file.
     while (file.good())
     {
         string productName1, productName2;
         getline(file, productName1, '|');
-        getline(file, productName2);
+        getline(file, productName2, '|');
         productName1 = trimSpaces(productName1);
         productName2 = trimSpaces(productName2);
-
+        getline(file, weight);
+        // TODO: Get weight as a number with stoi()
         if ((productName1.size() == 0) | (productName2.size() == 0))
             continue;
         if ((plist.find(productName1) == plist.end()) |
@@ -234,19 +235,22 @@ int main(int argc, char * argv[])
         cout << "Wrong number of arguments, at least one needed." << endl;
         cout << "Usage: " << argv[0] << " <products_file> [-ks] [-w]" << endl;
         cout << "If the option -ks is used then the algorithm run will be Karger-Stein's." << endl;
-        cout << "If the option -w is used then ..." << endl; // TODO: Add helpful text.
+        cout << "If the option -w is used then the product file will be treated as a weighted graph." << endl;
         return 1;
     }
     bool useKargerStein = false;
-    if (argc > 2 and string(argv[2]) == "-ks") useKargerStein = true; // TODO: Loop params.
     bool weightedGraph = false;
-    // TODO: Read param.
-
+    for (int i = 2; i < argc; ++i)
+    {
+	    string tmpArg = string(argv[i]);
+	    if (tmpArg == "-ks") useKargerStein = true;
+	    else if (tmpArg == "-w") weightedGraph = true;
+    }
     // Construct the data structure.
 	NodeList nodes;
 	EdgeList edges;
 	ProductList products;
-	tie(nodes, edges, products) = readFile(string(argv[1]));
+	tie(nodes, edges, products) = readFile(string(argv[1]), weightedGraph);
 
     // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;

@@ -147,12 +147,15 @@ unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
 {
     while(nodes.size() > t)
     {
+        // Choose a random edge.
         unsigned int chosenEdgeIndex = getRandom(0, static_cast<unsigned int>(edges.size() - 1));
         unsigned int receivingNode = get<0>(edges[chosenEdgeIndex]);
         unsigned int absorbedNode = get<1>(edges[chosenEdgeIndex]);
         unsigned int receivingNodeIndex = 0;
         unsigned int absorbedNodeIndex = 0;
         unsigned int endEarly = 0;
+        // Fuse the two nodes of the edges into one. For efficieny, fuse one (absorbedNode) into
+        // another (receivingNode).
         for (unsigned int i = 0; (i < nodes.size()) & (endEarly < 2); ++i)
         {
             if (nodes[i][0] == receivingNode) { receivingNodeIndex = i; endEarly++; }
@@ -162,6 +165,7 @@ unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
         nodes.erase(nodes.begin() + absorbedNodeIndex);
         edges.erase(edges.begin() + chosenEdgeIndex);
 
+        // Remove self-loop edges.
         for (auto it = edges.begin(); it < edges.end(); ++it)
         {
             if (get<0>(*it) == absorbedNode) *it = make_tuple(receivingNode, get<1>(*it));
@@ -173,6 +177,7 @@ unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
             }
         }
     }
+    // Return the min cut, this is, the number of edges still remaining in the graph.
     return static_cast<unsigned int>(edges.size());
 }
 
@@ -233,21 +238,18 @@ int main(int argc, char * argv[])
     bool useKargerStein = false;
     if (argc > 2 and string(argv[2]) == "-ks") useKargerStein = true;
 
+    // Construct the data structure.
 	NodeList nodes;
 	EdgeList edges;
 	ProductList products;
 	tie(nodes, edges, products) = readFile(string(argv[1]));
 
+    // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;
-    if (useKargerStein)
-    {
-        minimumCut = Karger_Stein(nodes, edges);
-    }
-    else
-    {
-        minimumCut = Karger(nodes, edges);
-    }
+    if (useKargerStein) minimumCut = Karger_Stein(nodes, edges);
+    else minimumCut = Karger(nodes, edges);
 
+    // Print results, the minimum cut and the two divisions.
 	for (unsigned int i = 0; i < nodes.size(); ++i)
 	{
 		for (unsigned int j = 0; j < nodes[i].size(); ++j)
@@ -255,13 +257,9 @@ int main(int argc, char * argv[])
 			for (auto it = products.begin(); it != products.end(); ++it)
 			{
 				if (it->second == nodes[i][j])
-				{
 					cout << it->first << ", ";
-				}
-				
 			}		
 		}
-		
 		cout << endl;
 	}
 	cout << "The cut is: " << minimumCut << '\n';

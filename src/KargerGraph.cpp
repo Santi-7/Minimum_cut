@@ -86,7 +86,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
         copy.KargerAlgorithm(t);
         unsigned int cut1 = KargerSteinAlgorithm();
         unsigned int cut2 = copy.KargerSteinAlgorithm();
-        if (cut1 < cut2)
+        if (cut1 <= cut2)
         {
             return cut1;
         }

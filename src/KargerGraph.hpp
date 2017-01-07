@@ -51,6 +51,20 @@ public:
     void FuseStep();
 
     /**
+     * An implementation of Karger's algorithm.
+     *
+     * @return Possible minimum cut for the input graph. It's not guaranteed to be correct.
+     */
+    unsigned int KargerAlgorithm(unsigned int t = 2);
+
+    /**
+     * An implementation of Karger-Stein's algorithm.
+     *
+     * @return Possible minimum cut for the input graph. It's not guaranteed to be correct.
+     */
+    unsigned int KargerSteinAlgorithm();
+
+    /**
      * @return The ProductPacks of this Graph.
      */
     std::map<unsigned int, ProductsPack> GetPacks() const;

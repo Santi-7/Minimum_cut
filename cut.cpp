@@ -133,93 +133,6 @@ unsigned int getRandom(unsigned int from, unsigned int to)
 }
 
 /**
- * An implementation of Karger's algorithm.
- * @param nodes Vertices of the graph for which a cut will be returned
- * @param edges Edges of the graph for which a cut will be returned
- * @return Possible minimum cut for the input graph. It's not guaranteed to be correct. nodes
- *  and edges will be updated so that nodes contains only two vectors of vertices and edges only
- *  the edges remaining in the cut found.
- */
-unsigned int Karger(NodeList& nodes, EdgeList& edges, unsigned int t = 2)
-{
-    while(nodes.size() > t)
-    {
-        // Choose a random edge.
-        unsigned int chosenEdgeIndex = getRandom(0, static_cast<unsigned int>(edges.size() - 1));
-        unsigned int receivingNode = get<0>(edges[chosenEdgeIndex]);
-        unsigned int absorbedNode = get<1>(edges[chosenEdgeIndex]);
-        unsigned int receivingNodeIndex = 0;
-        unsigned int absorbedNodeIndex = 0;
-        unsigned int endEarly = 0;
-        // Fuse the two nodes of the edges into one. For efficiency, fuse one (absorbedNode) into
-        // another (receivingNode).
-        for (unsigned int i = 0; (i < nodes.size()) & (endEarly < 2); ++i)
-        {
-            if (nodes[i][0] == receivingNode) { receivingNodeIndex = i; endEarly++; }
-            else if (nodes[i][0] == absorbedNode) { absorbedNodeIndex = i; endEarly++; }
-        }
-        nodes[receivingNodeIndex].insert(nodes[receivingNodeIndex].end(), nodes[absorbedNodeIndex].begin(), nodes[absorbedNodeIndex].end());
-        nodes.erase(nodes.begin() + absorbedNodeIndex);
-        edges.erase(edges.begin() + chosenEdgeIndex);
-
-        // Remove self-loop edges.
-        for (auto it = edges.begin(); it < edges.end(); ++it)
-        {
-            if (get<0>(*it) == absorbedNode) *it = make_tuple(receivingNode, get<1>(*it));
-            else if (get<1>(*it) == absorbedNode) *it = make_tuple(get<0>(*it), receivingNode);
-            if (get<0>(*it) == get<1>(*it))
-            {
-                it = edges.erase(it);
-                --it;
-            }
-        }
-    }
-    // Return the min cut, this is, the number of edges still remaining in the graph.
-    return static_cast<unsigned int>(edges.size());
-}
-
-/**
- * Karger-Stein's Min-Cut algorithm
- * @param nodes Vertices of the graph for which a cut will be returned
- * @param edges Edges of the graph for which a cut will be returned
- * @return Possible minimum cut for the input graph. It's not guaranteed to be correct. nodes
- *  and edges will be updated so that nodes contains only two vectors of vertices and edges only
- *  the edges remaining in the cut found. It's more likely to get the minimum cut than Karger's
- *  algorithm but also takes longer to run.
- */
-unsigned int Karger_Stein(NodeList& nodes, EdgeList& edges)
-{
-#if RANDOM == C
-    srand(static_cast<unsigned int>(time(NULL)));
-#endif
-
-    if (nodes.size() < 6)
-    {
-        return Karger(nodes, edges, 2);
-    }
-    else
-    {
-        unsigned int t = 1 + static_cast<unsigned int>(ceil(nodes.size() / sqrt(2)));
-        NodeList nodes2(nodes);
-        EdgeList edges2(edges);
-        Karger(nodes, edges, t);
-        Karger(nodes2, edges2, t);
-        unsigned int cut1 = Karger_Stein(nodes, edges);
-        unsigned int cut2 = Karger_Stein(nodes2, edges2);
-        if (cut1 < cut2)
-        {
-            return cut1;
-        }
-        else
-        {
-            nodes = nodes2;
-            edges = edges2;
-            return cut2;
-        }
-    }
-}
-
-/**
  * Read file from parameters and run Karger's algorithm on the graph described in it.
  */
 int main(int argc, char * argv[])
@@ -249,8 +162,8 @@ int main(int argc, char * argv[])
 
     // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;
-    //if (useKargerStein) minimumCut = Karger_Stein(nodes, edges);
-    //else minimumCut = Karger(nodes, edges);
+    if (useKargerStein) minimumCut = kargerGraph.KargerAlgorithm();
+    else minimumCut = kargerGraph.KargerSteinAlgorithm();
 
     unsigned long vertices = productMap.size();
     while (vertices --> 2) kargerGraph.FuseStep();

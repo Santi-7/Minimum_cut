@@ -8,8 +8,9 @@
 
 #include "KargerGraph.hpp"
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
+#include <valarray>
 
 KargerGraph::KargerGraph(const bool isWeighted)
 : mIsWeighted(isWeighted)
@@ -59,6 +60,40 @@ void KargerGraph::FuseStep()
     }
     /* Remove randomEdge.GetPack2() from mPacks. */
     mPacks.erase(randomEdge.GetPack2());
+}
+
+unsigned int KargerGraph::KargerAlgorithm(unsigned int t)
+{
+    // Fuse until t (2 by default) nodes are remaining.
+    unsigned long vertices = mPacks.size();
+    while (vertices --> t) FuseStep();
+
+    // Return the remaining edges.
+    return static_cast<unsigned int>(mEdges.size());
+}
+
+unsigned int KargerGraph::KargerSteinAlgorithm()
+{
+    if (mPacks.size() < 6)
+    {
+        return KargerAlgorithm();
+    }
+    else
+    {
+        unsigned int t = 1 + static_cast<unsigned int>(std::ceil(mPacks.size() / std::sqrt(2)));
+        KargerGraph copy; // TODO: Implement the copy of a graph.
+        unsigned int cut1 = KargerSteinAlgorithm();
+        unsigned int cut2 = copy.KargerSteinAlgorithm();
+        if (cut1 < cut2)
+        {
+            return cut1;
+        }
+        else
+        {
+            //this = copy; // TODO: Implement this.
+            return cut2;
+        }
+    }
 }
 
 std::map<unsigned int, ProductsPack> KargerGraph::GetPacks() const

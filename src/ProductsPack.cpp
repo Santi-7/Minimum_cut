@@ -13,7 +13,7 @@
 ProductsPack::ProductsPack() {}
 
 ProductsPack::ProductsPack(Product *initialProduct)
-: mId(static_cast<unsigned int>(initialProduct))
+: mId(initialProduct)
 {
     mProducts.push_back(initialProduct);
 }

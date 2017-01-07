@@ -96,7 +96,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
     }
 }
 
-std::map<unsigned int, ProductsPack> KargerGraph::GetPacks() const
+std::map<Product*, ProductsPack> KargerGraph::GetPacks() const
 {
     return mPacks;
 }

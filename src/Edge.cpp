@@ -8,25 +8,25 @@
 
 #include "Edge.hpp"
 
-Edge::Edge(const unsigned int p1, const unsigned int p2, const unsigned int weight)
+Edge::Edge(Product *p1, Product *p2, const unsigned int weight)
 : mP1(p1), mP2(p2), mWeight(weight) {}
 
-unsigned int Edge::GetPack1() const
+Product* Edge::GetPack1() const
 {
     return mP1;
 }
 
-unsigned int Edge::GetPack2() const
+Product* Edge::GetPack2() const
 {
     return mP2;
 }
 
-void Edge::SetPack1(const unsigned int pack)
+void Edge::SetPack1(Product *pack)
 {
     mP1 = pack;
 }
 
-void Edge::SetPack2(const unsigned int pack)
+void Edge::SetPack2(Product *pack)
 {
     mP2 = pack;
 }

@@ -106,9 +106,9 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
             throw 1;
         }
         // The pointers to the products are unique, so they can be the packs' id.
-        Edge theNewEdge(static_cast<unsigned int>(&productMap[productName1]),
-                        static_cast<unsigned int>(&productMap[productName2]),
-                        atoi(weight)); // TODO: Not always a weight.
+        Edge theNewEdge(&productMap[productName1],
+                        &productMap[productName2],
+                        static_cast<unsigned int>(stoi(weight))); // TODO: Not always a weight.
         kargerGraph.AddEdge(theNewEdge);
     }
 
@@ -167,5 +167,5 @@ int main(int argc, char * argv[])
 
     // Show results.
     cout << "The min cut is " << minimumCut << ".\n\n";
-    for (pair<unsigned int, ProductsPack> pack : kargerGraph.GetPacks()) pack.second.Print();
+    for (pair<Product*, ProductsPack> pack : kargerGraph.GetPacks()) pack.second.Print();
 }

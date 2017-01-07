@@ -53,7 +53,7 @@ public:
     std::vector<Product*> mProducts;
 
     /** Id of the pack. */
-    unsigned int mId;
+    Product* mId;
 };
 
 #endif // MINIMUM_CUT_PRODUCTSPACK_HPP

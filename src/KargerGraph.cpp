@@ -51,12 +51,7 @@ void KargerGraph::FuseStep()
     // Remove self-loop edges.
     for (auto it = mEdges.begin(); it < mEdges.end(); ++it)
     {
-        // TODO: Check this comparison. --it needs to be done? erase doesn't do it?
-        if (randomEdge == *it)
-        {
-            it = mEdges.erase(it);
-            --it;
-        }
+        if (randomEdge == *it) it = mEdges.erase(it);
     }
     /* Remove randomEdge.GetPack2() from mPacks. */
     mPacks.erase(randomEdge.GetPack2());

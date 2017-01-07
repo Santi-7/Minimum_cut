@@ -73,7 +73,11 @@ tuple<NodeList, EdgeList, ProductList> readFile(const string& filename)
     file >> numberOfProducts;
 
     NodeList nlist;
-    EdgeList elist((unsigned int) numberOfProducts, vector<unsigned int>((unsigned int)numberOfProducts, 0));
+    EdgeList elist((unsigned int) numberOfProducts);
+    for (unsigned int i = 0; i < elist.size(); ++i)
+    {
+        elist[i].resize(i+1);
+    }
     ProductList plist;
 
     // Read all the products in the input file.

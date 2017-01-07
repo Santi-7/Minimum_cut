@@ -92,6 +92,10 @@ private:
 
     /** True if the graph is weighted, false otherwise. */
     bool mIsWeighted;
+
+    /* Cached values */
+
+    unsigned int mSumWeights;
 };
 
 #endif // MINIMUM_CUT_KARGERGRAPH_HPP

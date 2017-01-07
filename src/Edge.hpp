@@ -63,6 +63,12 @@ public:
     void SetPack2(const unsigned int pack);
 
     /**
+     * Returns the edge's weight.
+     * @return the edge's weight.
+     */
+    unsigned int GetWeight() const;
+
+    /**
      * Overloads == operator to return true if both edges, [edge1] and [edge2],
      * have the same ProductsPack as the two verteces, no matter the order.
      *

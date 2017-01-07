@@ -13,14 +13,15 @@
 #include <valarray>
 
 KargerGraph::KargerGraph(const bool isWeighted)
-: mIsWeighted(isWeighted)
+: mIsWeighted(isWeighted), mSumWeights(0)
 {
     // Initializes the random numbers generator's seed.
     srand(time(NULL));
 }
 
 KargerGraph::KargerGraph(const KargerGraph &copy)
-: mPacks(copy.mPacks), mEdges(copy.mEdges), mIsWeighted(copy.mIsWeighted)
+: mPacks(copy.mPacks), mEdges(copy.mEdges),
+  mIsWeighted(copy.mIsWeighted), mSumWeights(copy.mSumWeights)
 {}
 
 void KargerGraph::AddProduct(Product *product)
@@ -33,6 +34,7 @@ void KargerGraph::AddEdge(Edge &edge)
 {
     // Add it to the vector of edges.
     mEdges.push_back(edge);
+    mSumWeights += edge.GetWeight();
 }
 
 void KargerGraph::FuseStep()
@@ -44,9 +46,20 @@ void KargerGraph::FuseStep()
     Edge randomEdge;
     if (mIsWeighted)
     {
-        // TODO: Take an edge.
+        unsigned int random = rand() % mSumWeights;
+        unsigned int acum = 0;
+        // Get the immediate edge that overpass the random value.
+        for (unsigned int i = 0; i < mEdges.size(); ++i)
+        {
+            acum += mEdges[i].GetWeight();
+            if (acum > random) {
+                randomEdge = mEdges[i];
+                break;
+            }
+        }
     }
-    else {
+    else
+    {
         randomEdge = mEdges[rand() % mEdges.size()];
     }
 
@@ -56,9 +69,11 @@ void KargerGraph::FuseStep()
     for (auto it = mEdges.begin(); it < mEdges.end(); ++it)
     {
         // Remove self-loop edges.
-        if (randomEdge == *it) {
+        if (randomEdge == *it)
+        {
             it = mEdges.erase(it);
             --it;
+            mSumWeights -= it->GetWeight();
         }
         // Update edges of the deleted node to the new fused node.
         else if (it->GetPack1() == randomEdge.GetPack2())
@@ -105,6 +120,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
             mPacks = copy.mPacks;
             mEdges = copy.mEdges;
             mIsWeighted = copy.mIsWeighted;
+            mSumWeights = copy.mSumWeights;
             return cut2;
         }
     }

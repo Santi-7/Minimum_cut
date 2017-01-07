@@ -31,6 +31,11 @@ void Edge::SetPack2(const unsigned int pack)
     mP2 = pack;
 }
 
+unsigned int Edge::GetWeight() const
+{
+    return mWeight;
+}
+
 bool operator==(const Edge &edge1, const Edge &edge2)
 {
     return ((edge1.mP1 == edge2.mP1) & (edge1.mP2 == edge2.mP2)) |

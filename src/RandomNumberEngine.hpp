@@ -11,10 +11,14 @@
 
 #include <random>
 
+/** Suportted random generator engines. */
 enum Engine {MERSENNE, CLASSIC_C};
 
-class RandomNumberEngine{
+class RandomNumberEngine
+{
+
 public:
+
     RandomNumberEngine(Engine selection);
 
     /**
@@ -25,9 +29,9 @@ public:
     unsigned int GetRandom(unsigned int from, unsigned int to);
 
 private:
+
+    /** Random generator engine selected. */
     Engine mEngine;
 };
 
-unsigned int getRandom(unsigned int from, unsigned int to);
-
-#endif //MINIMUM_CUT_RNG_HPP
+#endif // MINIMUM_CUT_RNG_HPP

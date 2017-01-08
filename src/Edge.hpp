@@ -75,7 +75,7 @@ public:
      * @param edge1 first edge in the comparison.
      * @param edge2 second edge in the comparison.
      * @return true if both edges, [edge1] and [edge2], have the same ProductsPack
-     *  as the two verteces, no matter the order.
+     *  as the two vertices, no matter the order.
      */
     friend bool operator==(const Edge &edge1, const Edge &edge2);
 

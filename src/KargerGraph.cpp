@@ -91,8 +91,10 @@ unsigned int KargerGraph::KargerAlgorithm(unsigned int t)
     unsigned long vertices = mPacks.size();
     while (vertices --> t) FuseStep();
 
-    // Return the remaining edges.
-    return static_cast<unsigned int>(mEdges.size());
+    // Return the weights of the remaining endges.  Weighted graph.
+    if (mIsWeighted) return mSumWeights;
+    // Return the remaining edges.                  Unweighted graph.
+    else return static_cast<unsigned int>(mEdges.size());
 }
 
 unsigned int KargerGraph::KargerSteinAlgorithm()

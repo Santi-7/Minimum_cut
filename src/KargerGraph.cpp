@@ -42,13 +42,13 @@ void KargerGraph::FuseStep()
     Edge randomEdge;
     if (mIsWeighted)
     {
-        unsigned int random = mRng.GetRandom(0, static_cast<unsigned int>(mEdges.size()));
+        unsigned int random = mRng.GetRandom(1, mSumWeights);
         unsigned int acum = 0;
         // Get the immediate edge that overpass the random value.
         for (unsigned int i = 0; i < mEdges.size(); ++i)
         {
             acum += mEdges[i].GetWeight();
-            if (acum > random)
+            if (acum >= random)
             {
                 randomEdge = mEdges[i];
                 break;
@@ -57,7 +57,7 @@ void KargerGraph::FuseStep()
     }
     else
     {
-        randomEdge = mEdges[mRng.GetRandom(0, static_cast<unsigned int>(mEdges.size()))];
+        randomEdge = mEdges[mRng.GetRandom(0, static_cast<unsigned int>(mEdges.size()-1))];
     }
 
     // Fuses the products of both packs into the first one.
@@ -70,9 +70,10 @@ void KargerGraph::FuseStep()
         {
             mSumWeights -= it->GetWeight();
             it = mEdges.erase(it);
+            it--;
         }
         // Update edges of the deleted node to the new fused node.
-        if (it->GetPack1() == randomEdge.GetPack2())
+        else if (it->GetPack1() == randomEdge.GetPack2())
             it->SetPack1(randomEdge.GetPack1());
         else if (it->GetPack2() == randomEdge.GetPack2())
             it->SetPack2(randomEdge.GetPack1());

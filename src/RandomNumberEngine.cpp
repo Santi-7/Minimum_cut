@@ -5,6 +5,7 @@
  ** Author: Miguel Jorge Galindo Ramos, NIA: 679954
  **         Santiago Gil Begué, NIA: 683482
  ** -------------------------------------------------------------------------*/
+
 #include "RandomNumberEngine.hpp"
 
 RandomNumberEngine::RandomNumberEngine(Engine selection)

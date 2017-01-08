@@ -12,6 +12,7 @@
 #include "Edge.hpp"
 #include "Product.hpp"
 #include "ProductsPack.hpp"
+#include "RandomNumberEngine.hpp"
 
 #include <map>
 
@@ -21,7 +22,7 @@ class KargerGraph
 public:
 
     /** Default constructor. */
-    KargerGraph() {}
+    KargerGraph() : mRng(CLASSIC_C) {}
 
     /**
      * Creates a Karger's Graph.
@@ -29,7 +30,7 @@ public:
      * @param isWeighted True if the graph is weighted, false otherwise.
      * @return a Karger's Graph.
      */
-    KargerGraph(const bool isWeighted);
+    KargerGraph(const bool isWeighted, RandomNumberEngine &rng);
 
     /**
      * Copy constructor.
@@ -37,7 +38,7 @@ public:
      * @param copy A Karger Graph which is being copied into the new one.
      * @return A Karger Graph copy of [copy].
      */
-    KargerGraph(const KargerGraph &copy);
+    KargerGraph(const KargerGraph &copy, RandomNumberEngine &rng);
 
     /**
      * Adds the Amazon's product [product] to the Karger's Graph as a vertice.
@@ -92,6 +93,9 @@ private:
 
     /** True if the graph is weighted, false otherwise. */
     bool mIsWeighted;
+
+    /** Random number generator. */
+    RandomNumberEngine mRng;
 
     /* Cached values */
 

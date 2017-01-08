@@ -9,19 +9,15 @@
 #include "KargerGraph.hpp"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <valarray>
 
-KargerGraph::KargerGraph(const bool isWeighted)
-: mIsWeighted(isWeighted), mSumWeights(0)
-{
-    // Initializes the random numbers generator's seed.
-    srand(time(NULL));
-}
+KargerGraph::KargerGraph(const bool isWeighted, RandomNumberEngine &rng)
+: mIsWeighted(isWeighted), mRng(rng), mSumWeights(0)
+{}
 
-KargerGraph::KargerGraph(const KargerGraph &copy)
+KargerGraph::KargerGraph(const KargerGraph &copy, RandomNumberEngine &rng)
 : mPacks(copy.mPacks), mEdges(copy.mEdges),
-  mIsWeighted(copy.mIsWeighted), mSumWeights(copy.mSumWeights)
+  mIsWeighted(copy.mIsWeighted), mRng(rng), mSumWeights(copy.mSumWeights)
 {}
 
 void KargerGraph::AddProduct(Product *product)
@@ -46,7 +42,7 @@ void KargerGraph::FuseStep()
     Edge randomEdge;
     if (mIsWeighted)
     {
-        unsigned int random = rand() % mSumWeights;
+        unsigned int random = mRng.GetRandom(0, static_cast<unsigned int>(mEdges.size()));
         unsigned int acum = 0;
         // Get the immediate edge that overpass the random value.
         for (unsigned int i = 0; i < mEdges.size(); ++i)
@@ -60,7 +56,7 @@ void KargerGraph::FuseStep()
     }
     else
     {
-        randomEdge = mEdges[rand() % mEdges.size()];
+        randomEdge = mEdges[mRng.GetRandom(0, static_cast<unsigned int>(mEdges.size()))];
     }
 
     // Fuses the products of both packs into the first one.

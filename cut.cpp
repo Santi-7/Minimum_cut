@@ -12,10 +12,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <random>
 #include <unordered_map>
-
-#define RANDOM MERSENNE
 
 using namespace std;
 
@@ -53,7 +50,7 @@ string& trimSpaces(string &str)
  * @param readWeightedGraph True if the graph to read is weighted.
  * @return Map of the products read and the constructed Karger's Graph.
  */
-tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filename, const bool readWeightedGraph)
+tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filename, const bool readWeightedGraph, RandomNumberEngine &rng)
 {
 	// Open the input file.
     ifstream file(filename);
@@ -66,7 +63,7 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
     // Map that manages the Amazon's products.
     unordered_map<string, Product> productMap;
     // Karger's Graph.
-	KargerGraph kargerGraph(readWeightedGraph);
+	KargerGraph kargerGraph(readWeightedGraph, rng);
 
     unsigned int numberOfProducts;
     file >> numberOfProducts;
@@ -145,27 +142,11 @@ tuple<unordered_map<string, Product>, KargerGraph> readFile(const string& filena
 }
 
 /**
- * @param from Minimum value that can be returned.
- * @param to Maximum value that can be returned.
- * @return Random value in the specified range.
- */
-unsigned int getRandom(unsigned int from, unsigned int to)
-{
-#if RANDOM == MERSENNE
-    static random_device rd;     // only used once to initialise (seed) engine
-    static mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-    uniform_int_distribution<int> uni(from, to); // guaranteed unbiased
-    return (unsigned int) uni(rng);
-#elif RANDOM == C
-    return rand();
-#endif
-}
-
-/**
  * Read file from parameters and run Karger's algorithm on the graph described in it.
  */
 int main(int argc, char * argv[])
 {
+    Engine randomEngine = MERSENNE;
     // Check number of parameters.
 	if (argc < 2)
     {
@@ -173,6 +154,8 @@ int main(int argc, char * argv[])
         cout << "Usage: " << argv[0] << " <products_file> [-ks] [-w]" << endl;
         cout << "If the option -ks is used then the algorithm run will be Karger-Stein's." << endl;
         cout << "If the option -w is used then the product file will be treated as a weighted graph." << endl;
+        cout << "If the option -rand=C is used then the random number generator used will be C rand()." << endl;
+        cout << "If the option -rand=MERSENNE is used then the random number generator used will be a C++ Mersenne twister." << endl;
         return 1;
     }
     bool useKargerStein = false;
@@ -182,12 +165,20 @@ int main(int argc, char * argv[])
 	    string tmpArg = string(argv[i]);
 	    if (tmpArg == "-ks") useKargerStein = true;
 	    else if (tmpArg == "-w") weightedGraph = true;
+        else if (tmpArg == "-rand=C") randomEngine = CLASSIC_C;
+        else if (tmpArg == "-rand=MERSENNE") randomEngine = MERSENNE;
+        else
+        {
+            cerr << "Unrecognized parameter: '" << tmpArg << "'\n";
+            return 1;
+        }
     }
 
     // Construct the data structure.
     unordered_map<string, Product> productMap;
     KargerGraph kargerGraph;
-	tie(productMap, kargerGraph) = readFile(string(argv[1]), weightedGraph);
+    RandomNumberEngine rng(randomEngine);
+	tie(productMap, kargerGraph) = readFile(string(argv[1]), weightedGraph, rng);
 
     // Call Karger's algorithm, or its enhanced version Karger-Stein.
     unsigned int minimumCut;

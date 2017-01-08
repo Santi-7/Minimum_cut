@@ -48,7 +48,8 @@ void KargerGraph::FuseStep()
         for (unsigned int i = 0; i < mEdges.size(); ++i)
         {
             acum += mEdges[i].GetWeight();
-            if (acum > random) {
+            if (acum > random)
+            {
                 randomEdge = mEdges[i];
                 break;
             }
@@ -87,7 +88,7 @@ unsigned int KargerGraph::KargerAlgorithm(unsigned int t)
     unsigned long vertices = mPacks.size();
     while (vertices --> t) FuseStep();
 
-    // Return the weights of the remaining endges.  Weighted graph.
+    // Return the weights of the remaining edges.   Weighted graph.
     if (mIsWeighted) return mSumWeights;
     // Return the remaining edges.                  Unweighted graph.
     else return static_cast<unsigned int>(mEdges.size());

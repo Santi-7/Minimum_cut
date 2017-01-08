@@ -103,7 +103,7 @@ unsigned int KargerGraph::KargerSteinAlgorithm()
     }
     else
     {
-        unsigned int t = 1 + static_cast<unsigned int>(std::ceil(mPacks.size() / std::sqrt(2)));
+        unsigned int t = 1 + static_cast<unsigned int>(std::round(mPacks.size() / std::sqrt(2)));
         KargerGraph copy(*this);
         KargerAlgorithm(t);
         copy.KargerAlgorithm(t);

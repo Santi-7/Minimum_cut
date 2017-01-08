@@ -151,11 +151,12 @@ int main(int argc, char * argv[])
 	if (argc < 2)
     {
         cout << "Wrong number of arguments, at least one needed." << endl;
-        cout << "Usage: " << argv[0] << " <products_file> [-ks] [-w]" << endl;
+        cout << "Usage: " << argv[0] << " <products_file> [-ks] [-w] [-rand=C|MERSENNE]" << endl;
         cout << "If the option -ks is used then the algorithm run will be Karger-Stein's." << endl;
         cout << "If the option -w is used then the product file will be treated as a weighted graph." << endl;
         cout << "If the option -rand=C is used then the random number generator used will be C rand()." << endl;
         cout << "If the option -rand=MERSENNE is used then the random number generator used will be a C++ Mersenne twister." << endl;
+        cout << "If no random generator is selected, a C++ Mersenne twister will be used by default." << endl;
         return 1;
     }
     bool useKargerStein = false;
